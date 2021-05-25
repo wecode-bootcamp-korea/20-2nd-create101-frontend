@@ -1,0 +1,166 @@
+{
+  "course": {
+    "id": 1,
+    "name": "축구계의 끝판왕",
+    "price": "30000.00",
+    "thumbnail_url": "/images/thumbnail.jpg",
+    "subcategory": "스포츠",
+    "counts_like": 1,
+    "target": "초급자",
+    "month": 6,
+    "question": [
+      {
+        "id": 1,
+        "text": "Aut fuga debitis quibusdam maiores. Quam facilis aliquid laboriosam expedita voluptatem eum.",
+        "user_id": 1
+      },
+      {
+        "id": 2,
+        "text": "Accusantium laborum amet assumenda sed assumenda veniam culpa. Reprehenderit alias quos incidunt autem vitae.",
+        "user_id": 1
+      },
+      {
+        "id": 3,
+        "text": "Molestiae qui necessitatibus vero amet. Assumenda aliquam ipsam quisquam quidem qui. Sed cum cumque molestias dolore perferendis maxime.",
+        "user_id": 1
+      },
+      {
+        "id": 4,
+        "text": "Modi facilis facere odio. Culpa ex facilis numquam architecto dolorem consequatur.",
+        "user_id": 1
+      },
+      {
+        "id": 5,
+        "text": "At quisquam quaerat fugiat hic iusto. Et vero doloribus quos consectetur. Ratione nam quas rerum.",
+        "user_id": 1
+      }
+    ],
+    "answer": [
+      {
+        "text": "Eius itaque vitae ab iste consectetur. Nesciunt excepturi amet earum atque corrupti debitis.",
+        "user_id": 2,
+        "review_id": 1
+      },
+      {
+        "text": "Fuga dolorem dicta et voluptatem.\nOccaecati unde iste voluptatibus. Neque architecto recusandae nesciunt natus.",
+        "user_id": 2,
+        "review_id": 1
+      },
+      {
+        "text": "Molestiae quidem est inventore pariatur pariatur. Delectus fuga ipsam ratione. Dignissimos autem placeat.",
+        "user_id": 2,
+        "review_id": 1
+      },
+      {
+        "text": "Inventore officia id nam soluta nobis amet. Sequi rerum quia inventore ad tempora excepturi dolorem.\nAt tempora saepe consequuntur odit magni. Reprehenderit quod quos est.",
+        "user_id": 2,
+        "review_id": 1
+      },
+      {
+        "text": "Odio ipsa natus distinctio saepe numquam. Nihil aliquam quod consectetur error accusantium quasi.\nError repellat amet non architecto dolor quia. Omnis mollitia adipisci labore.",
+        "user_id": 2,
+        "review_id": 1
+      },
+      {
+        "text": "Nihil perspiciatis laborum nam nisi deserunt similique ab. Asperiores quidem sint veniam. Totam autem commodi magni ex.",
+        "user_id": 2,
+        "review_id": 2
+      },
+      {
+        "text": "Aut aliquid ad eveniet repudiandae occaecati unde. Autem eligendi alias. Doloribus optio dicta fugit sapiente id consectetur.\nDeleniti esse temporibus harum. Autem nobis tempore doloribus.",
+        "user_id": 2,
+        "review_id": 2
+      },
+      {
+        "text": "Quaerat dolores saepe. Non impedit temporibus dolorum quasi consectetur.",
+        "user_id": 2,
+        "review_id": 2
+      },
+      {
+        "text": "Mollitia fuga mollitia deserunt aliquid recusandae. Neque corporis molestias nulla accusantium. Libero voluptate inventore saepe magni suscipit dolorum ipsam.",
+        "user_id": 2,
+        "review_id": 2
+      },
+      {
+        "text": "Numquam tempora ipsa. Quas dolore magnam perferendis.\nDolorem libero voluptatibus qui tenetur. Accusamus voluptatem alias omnis.\nCulpa ipsum vel ratione tempora saepe. Eveniet quam debitis vel.",
+        "user_id": 2,
+        "review_id": 2
+      },
+      {
+        "text": "Harum beatae perferendis saepe. Quos corrupti nisi nobis.",
+        "user_id": 2,
+        "review_id": 3
+      },
+      {
+        "text": "Sapiente facere aut quasi quam in. Quo libero odit praesentium ipsa in. Laborum minima adipisci nulla.",
+        "user_id": 2,
+        "review_id": 3
+      },
+      {
+        "text": "Repudiandae nostrum nesciunt blanditiis. Temporibus enim provident rerum voluptas repellendus officia. Magnam quae optio repellendus eos.",
+        "user_id": 2,
+        "review_id": 3
+      },
+      {
+        "text": "Ad occaecati veritatis assumenda ipsum repellat. Cupiditate facere amet velit iste quasi fugit rerum. Libero velit dolor nostrum quasi quaerat ut.",
+        "user_id": 2,
+        "review_id": 3
+      },
+      {
+        "text": "Sint possimus saepe nihil quia ipsa dolor nesciunt. Repellendus neque nobis saepe qui incidunt reiciendis neque. Perferendis sit tempore.",
+        "user_id": 2,
+        "review_id": 3
+      },
+      {
+        "text": "Unde id minima cupiditate. Accusantium a fugiat suscipit est quod.\nPorro tenetur qui tenetur veritatis in aperiam. Occaecati inventore nostrum magnam sequi explicabo.",
+        "user_id": 2,
+        "review_id": 4
+      },
+      {
+        "text": "Expedita cum distinctio et. Animi alias ex rerum necessitatibus quidem corrupti.",
+        "user_id": 2,
+        "review_id": 4
+      },
+      {
+        "text": "Nemo ex natus ipsum. Fugit error consequatur eos. Quis modi aliquam doloremque ipsam reiciendis.",
+        "user_id": 2,
+        "review_id": 4
+      },
+      {
+        "text": "Modi officia cum adipisci eligendi laboriosam reiciendis blanditiis. Maiores eligendi odit sunt id accusantium. Architecto commodi veritatis porro.",
+        "user_id": 2,
+        "review_id": 4
+      },
+      {
+        "text": "Hic ab tenetur quo voluptates.\nDignissimos ratione enim nostrum. Autem quos repellat quibusdam corporis cum. Quasi natus laboriosam delectus animi.",
+        "user_id": 2,
+        "review_id": 4
+      },
+      {
+        "text": "Nostrum quae quia pariatur.\nExercitationem porro maiores nisi dicta.\nUnde porro numquam. Dolore vero nobis accusantium. Unde commodi ab nihil facere perferendis temporibus.",
+        "user_id": 2,
+        "review_id": 5
+      },
+      {
+        "text": "Nesciunt reiciendis soluta. Numquam explicabo sed.\nEligendi incidunt cumque. Soluta odit quibusdam delectus nesciunt. Labore eum asperiores doloribus. Labore quod deserunt fuga labore.",
+        "user_id": 2,
+        "review_id": 5
+      },
+      {
+        "text": "Nostrum saepe sunt cumque suscipit possimus ea ex. Iusto fuga eligendi quasi.",
+        "user_id": 2,
+        "review_id": 5
+      },
+      {
+        "text": "Libero optio rerum minus delectus. Soluta nesciunt adipisci minima earum quos optio. Sint vitae officiis porro.",
+        "user_id": 2,
+        "review_id": 5
+      },
+      {
+        "text": "Provident accusamus consequatur. Cum amet exercitationem. Reiciendis repellat unde.",
+        "user_id": 2,
+        "review_id": 5
+      }
+    ]
+  }
+}
