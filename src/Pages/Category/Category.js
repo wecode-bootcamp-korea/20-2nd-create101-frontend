@@ -2,26 +2,52 @@ import { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components/macro';
 import CategoryCards from './Components/CategoryCards';
 import PageButtons from './Components/PageButtons';
-import { API } from '../../config';
+import { API, TEMP_API } from '../../config';
 
 function Category(props) {
   const [categories, setCategories] = useState();
   const [current, setCurrent] = useState();
   const [componentDatas, setComponentDatas] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const categoryName = props.match.params.categoryName;
+  const searchKeyword = props.match.params.categoryName;
 
   useEffect(() => {
+    //카테고리 데이터
     fetch(`${API}/courses/category`)
       .then(res => res.json())
       .then(categoryData => {
         setCategories(categoryData.category);
       });
+    //전체 데이터
     fetch(`${API}/courses`)
       .then(res => res.json())
       .then(data => {
         setComponentDatas(data.courses);
       });
   }, []);
+
+  useEffect(() => {
+    //카테고리 리스트 데이터
+    const fetchDestination =
+      categoryName.includes('취미') || categoryName.includes('수익창출')
+        ? `${API}/courses?category=${categoryName}`
+        : `${API}/courses?sub_category=${categoryName}`;
+    fetch(fetchDestination)
+      .then(res => res.json())
+      .then(data => {
+        setComponentDatas(data.courses);
+      });
+  }, [categoryName]);
+
+  useEffect(() => {
+    //검색 데이터
+    fetch(`${API}/courses?keyword=${searchKeyword}`)
+      .then(res => res.json())
+      .then(data => {
+        setComponentDatas(data.courses);
+      });
+  }, [searchKeyword]);
 
   const postsPerPage = 12;
   const indexOfLastPost = currentPage * postsPerPage;
@@ -47,8 +73,9 @@ function Category(props) {
               <div key={category.id}>
                 <Li
                   bold
-                  onClick={() => {
+                  onClick={e => {
                     setCurrent(category.name);
+                    props.history.push(`/category/${e.target.textContent}`);
                   }}
                   selected={current === category.name}
                 >
@@ -58,8 +85,9 @@ function Category(props) {
                   <Li
                     key={sub.id}
                     small
-                    onClick={() => {
+                    onClick={e => {
                       setCurrent(sub.name);
+                      props.history.push(`/category/${e.target.textContent}`);
                     }}
                     selected={current === sub.name}
                   >
@@ -81,7 +109,10 @@ function Category(props) {
               categories.map(category => (
                 <Fragment key={category.id}>
                   <GridItem
-                    onClick={() => setCurrent(category.name)}
+                    onClick={e => {
+                      setCurrent(category.name);
+                      props.history.push(`/category/${e.target.textContent}`);
+                    }}
                     selected={current === category.name}
                   >
                     {category.name}
@@ -89,7 +120,10 @@ function Category(props) {
                   {category.sub_category.map(sub => (
                     <GridItem
                       key={sub.id}
-                      onClick={() => setCurrent(sub.name)}
+                      onClick={e => {
+                        setCurrent(sub.name);
+                        props.history.push(`/category/${e.target.textContent}`);
+                      }}
                       selected={current === sub.name}
                     >
                       {sub.name}

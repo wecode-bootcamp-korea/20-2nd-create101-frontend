@@ -9,10 +9,12 @@ import Category from './Pages/Category/Category';
 import CreateClass from './Pages/CreateClass/CreateClass';
 import Footer from './Components/Footer/Footer';
 import MyPage from './Pages/MyPage/MyPage';
+import Nav from './Components/Nav/Nav';
 
 function Routes() {
   return (
     <Router>
+      <Nav />
       <MobileNav />
       <Switch>
         <Route exact path="/" component={Main} />
@@ -20,6 +22,7 @@ function Routes() {
         <Route exact path="/details" component={Details} />
         <Route exact path="/category" component={Category} />
         <Route exact path="/mypage" component={MyPage} />
+        <Route exact path="/category/:categoryName" component={Category} />
         <RecoilRoot>
           <Route exact path="/create" component={CreateClass} />
         </RecoilRoot>
