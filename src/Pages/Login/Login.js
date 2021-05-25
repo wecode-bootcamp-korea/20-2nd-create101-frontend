@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { API } from '../../config';
 
 const { Kakao } = window;
 
-function SocialLogin() {
+function SocialLogin(props) {
   const history = useHistory();
 
   const KakaoLoginHandler = () => {
@@ -33,11 +33,15 @@ function SocialLogin() {
     });
   };
 
+  const goToMainPage = () => {
+    history.push('/');
+  };
+
   return (
     <Container>
       <Main>
         <HeaderBar>
-          <Logo alt="" src="/images/logo.png" />
+          <Logo alt="로고" src="/images/logo.png" onClick={goToMainPage} />
           <Language>🇰🇷 한국어</Language>
         </HeaderBar>
         <TagContainer>
@@ -132,4 +136,4 @@ const Image = styled.img`
   width: 100%;
 `;
 
-export default SocialLogin;
+export default withRouter(SocialLogin);

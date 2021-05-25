@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components/macro';
 import { Search } from '@styled-icons/bootstrap';
 import { Cancel, List, PersonOutline } from '@styled-icons/material';
 import { CreateNewFolder } from '@styled-icons/material-outlined';
@@ -10,10 +11,9 @@ function MobileNav(props) {
   const [searchLog, setSearchLog] = useState(
     JSON.parse(localStorage.getItem('search log')) || []
   );
-
   const [currentTab, setCurrentTab] = useState();
-
   const [categories, setCategories] = useState();
+  const [searchInput, setSearchInput] = useState();
 
   useEffect(() => {
     fetch('/data/category.json')
@@ -41,12 +41,33 @@ function MobileNav(props) {
     setSearchLog(searchLog.filter(logToDel => logToDel.id !== log.id));
   };
 
+  const goToCategoryPage = e => {
+    props.history.push(`/category/${e.target.textContent}`);
+  };
+
+  const goToMainPage = () => {
+    props.history.push(`/`);
+  };
+
+  const goToSearchResultPage = searchInput => {
+    props.history.push(`/category/${searchInput}`);
+  };
+
+  const goToSearchKeywordPage = e => {
+    props.history.push(`/category/${e.target.textContent}`);
+  };
+
   return (
     <Container>
       <SignUp>가입만 해도 쿠폰팩 증정! ></SignUp>
       {!search ? (
         <FlexDiv>
-          <img alt="create101 logo" src="/images/logo.png" width="60px" />
+          <img
+            alt="create101 logo"
+            src="/images/logo.png"
+            width="60px"
+            onClick={goToMainPage}
+          />
           <SearchIcon
             onClick={() => {
               setSearch(true);
@@ -59,9 +80,15 @@ function MobileNav(props) {
             <form
               onSubmit={e => {
                 addLog(e);
+                goToSearchResultPage(searchInput);
+                setSearch(false);
               }}
             >
-              <Input placeholder="찾으시는 취미가 있으신가요?" />
+              <Input
+                placeholder="찾으시는 취미가 있으신가요?"
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+              />
             </form>
             <Span
               onClick={() => {
@@ -88,7 +115,9 @@ function MobileNav(props) {
             <SearchTitle>추천 검색어</SearchTitle>
             <KeyWordContainer>
               {KEYWORDS.map((keyword, index) => (
-                <KeyWord key={index}>{keyword}</KeyWord>
+                <KeyWord key={index} onClick={e => goToSearchKeywordPage(e)}>
+                  {keyword}
+                </KeyWord>
               ))}
             </KeyWordContainer>
           </Div>
@@ -114,10 +143,14 @@ function MobileNav(props) {
         <Menu>
           {categories.map(category => (
             <Div key={category.id}>
-              <Category>{category.name}</Category>
+              <Category onClick={e => goToCategoryPage(e)}>
+                {category.name}
+              </Category>
               <Line />
               {category.sub_category.map(sub => (
-                <Sub key={sub.id}>{sub.name}</Sub>
+                <Sub key={sub.id} onClick={e => goToCategoryPage(e)}>
+                  {sub.name}
+                </Sub>
               ))}
             </Div>
           ))}
@@ -268,13 +301,6 @@ const TAB_LISTS = [
   { name: '마이페이지', icon: <Person /> },
 ];
 
-const KEYWORDS = [
-  '제테크',
-  '어쩌구',
-  '추천검색',
-  '저쩌구',
-  '무슨수업',
-  '무슨무슨수업',
-];
+const KEYWORDS = ['축구', '농구', '돈까스', '투자', '프랑스', '독일'];
 
-export default MobileNav;
+export default withRouter(MobileNav);
