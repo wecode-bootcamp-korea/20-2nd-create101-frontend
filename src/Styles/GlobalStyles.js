@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   
   html {
     font-size: 18px;
+    scroll-behavior: smooth;
   }
   
   button,
