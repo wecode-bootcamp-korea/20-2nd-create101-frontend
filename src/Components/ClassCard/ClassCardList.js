@@ -4,6 +4,7 @@ import ClassCard from './ClassCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import { API } from '../../config';
 
 const settings = {
   dots: false,
@@ -15,32 +16,62 @@ const settings = {
 };
 
 function CardList(props) {
-  const [componentDatas, setComponentDatas] = useState();
+  const [newestData, setNewestData] = useState();
+  const [popularData, setPopularData] = useState();
+  const [mostReviewData, setMostReviewData] = useState();
 
   useEffect(() => {
-    fetch('/data/componentData.json')
+    fetch(`${API}/courses?sort=lastest`)
       .then(res => res.json())
       .then(data => {
-        setComponentDatas(data.courses);
+        setNewestData(data.courses.slice(0, 10));
+      });
+
+    fetch(`${API}/courses?sort=likes`)
+      .then(res => res.json())
+      .then(data => {
+        setPopularData(data.courses.slice(0, 10));
+      });
+
+    fetch(`${API}/courses?sort=reviewest`)
+      .then(res => res.json())
+      .then(data => {
+        setMostReviewData(data.courses.slice(0, 10));
       });
   }, []);
 
-  return componentDatas ? (
-    <MainContainer>
-      <CardListContainer>
-        <HeaderContainer>
-          <div>&nbsp;실시간 TOP10 클래스</div>
-        </HeaderContainer>
-        <Wrap>
-          <StyledSlider {...settings}>
-            {componentDatas.map((componentData, index) => {
-              return <ClassCard componentData={componentData} key={index} />;
-            })}
-          </StyledSlider>
-        </Wrap>
-      </CardListContainer>
-    </MainContainer>
-  ) : null;
+  const LIST_DATA = [
+    { title: '실시간 인기 클래스', data: popularData },
+    { title: '최신 업데이트 클래스', data: newestData },
+    { title: '후기가 많은 클래스', data: mostReviewData },
+  ];
+
+  return (
+    <>
+      {LIST_DATA.map((list, index) => {
+        return (
+          list.data && (
+            <MainContainer key={index}>
+              <CardListContainer>
+                <HeaderContainer>
+                  <div>&nbsp;{list.title}</div>
+                </HeaderContainer>
+                <Wrap>
+                  <StyledSlider {...settings}>
+                    {list.data.map((componentData, index) => {
+                      return (
+                        <ClassCard key={index} componentData={componentData} />
+                      );
+                    })}
+                  </StyledSlider>
+                </Wrap>
+              </CardListContainer>
+            </MainContainer>
+          )
+        );
+      })}
+    </>
+  );
 }
 
 const StyledSlider = styled(Slider)`
@@ -56,18 +87,18 @@ const StyledSlider = styled(Slider)`
 `;
 
 const MainContainer = styled.div`
-  width: 85%;
-  margin: auto;
+  width: 75%;
+  margin: 45px auto;
 `;
 
 const CardListContainer = styled.div`
   position: relative;
-  width: 95%;
+  width: 75%;
   margin: auto;
 `;
 
 const HeaderContainer = styled.div`
-  width: 100%;
+  width: 85%;
   display: flex;
   font-size: 25px;
   font-weight: bold;

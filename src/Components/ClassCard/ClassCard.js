@@ -9,7 +9,7 @@ function CardComponent(props) {
       <div>
         <ImageContainer>
           <span>
-            <Picture src={componentData.thumbnail} alt="stock image" />
+            <Picture src={componentData.thumbnail} alt="class image" />
             <SaveButton />
           </span>
         </ImageContainer>
@@ -22,7 +22,7 @@ function CardComponent(props) {
           </InfoTagContainer>
           <Text>{componentData.title}</Text>
           <HeartContainer>
-            <HeartButton></HeartButton>
+            <HeartButton />
             <HeartCount>{componentData.like}</HeartCount>
           </HeartContainer>
         </div>
@@ -31,17 +31,20 @@ function CardComponent(props) {
         </DividerContainer>
         <div>
           <OriginalPrice>
-            {!componentData.month
+            {componentData.month === 1
               ? ' '
               : `${componentData.price.toLocaleString()}원`}
           </OriginalPrice>
         </div>
         <PriceContainer>
-          {componentData.month ? (
+          {componentData.month > 1 ? (
             <>
               <PricePerMonth>
                 월&nbsp;
-                {(componentData.price / componentData.month).toLocaleString()}원
+                {Math.round(
+                  componentData.price / componentData.month
+                ).toLocaleString()}
+                원
               </PricePerMonth>
               <Month>({componentData.month}개월)</Month>
             </>
@@ -57,7 +60,7 @@ function CardComponent(props) {
 }
 
 const MainContainer = styled.div`
-  width: 95%;
+  width: 260px;
   margin: auto;
   margin-top: 50px;
 `;
