@@ -1,0 +1,104 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "축구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "신승호",
+      "like": 1,
+      "price": 30000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 5
+    },
+    {
+      "id": 2,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 3,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 4,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 5,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 6,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 7,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 8,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 9,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    },
+    {
+      "id": 10,
+      "title": "농구계의 끝판왕",
+      "sub_category": "스포츠",
+      "user": "홍연우",
+      "like": 1,
+      "price": 40000.0,
+      "thumbnail": "/images/stock.jpg",
+      "month": 1
+    }
+  ]
+}
