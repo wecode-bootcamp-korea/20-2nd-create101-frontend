@@ -24,7 +24,6 @@ function Details() {
   useEffect(() => {
     const tabObserver = new IntersectionObserver(
       entries => {
-        console.log(entries);
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             setCurrentTab(entry.target);
