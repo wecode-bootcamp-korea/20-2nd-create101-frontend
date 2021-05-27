@@ -5,6 +5,8 @@ import Main from './Pages/Main/Main';
 import Login from './Pages/Login/Login';
 import Details from './Pages/Details/Details';
 import Category from './Pages/Category/Category';
+import CreateClass from './Pages/CreateClass/CreateClass';
+import { RecoilRoot } from 'recoil';
 
 function Routes() {
   return (
@@ -15,6 +17,9 @@ function Routes() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/details" component={Details} />
         <Route exact path="/category" component={Category} />
+        <RecoilRoot>
+          <Route exact path="/create" component={CreateClass} />
+        </RecoilRoot>
       </Switch>
     </Router>
   );
