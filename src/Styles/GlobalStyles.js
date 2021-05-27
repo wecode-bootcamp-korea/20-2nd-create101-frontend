@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     
-    @media screen and (max-width: 415px) {
+    @media screen and (max-width: 768px) {
       max-width: 100%;
     }
   }

@@ -155,7 +155,7 @@ const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 5px 20px;
+  padding: 5px 10px;
   font-size: 0.8rem;
 `;
 
