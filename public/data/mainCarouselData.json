@@ -1,0 +1,40 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "main_description": "여행 영상 어렵지 않아요",
+      "sub_description": "한편의 뮤직비디오같은 하연주의 여행 영상 제작법",
+      "thumbnail": "/images/mainCarouselImg/polynesia.jpg"
+    },
+    {
+      "id": 2,
+      "main_description": "김도은의 드로잉 클래스 101원",
+      "sub_description": "마카와 색연필로 그려내는 일상의 기록, 찰나의 순간",
+      "thumbnail": "/images/mainCarouselImg/flower.jpg"
+    },
+    {
+      "id": 3,
+      "main_description": "주식투자, 운도 감도 아닌 학습입니다",
+      "sub_description": "왕초보도 할 수 있는 조원영만의 미국주식 투자법",
+      "thumbnail": "/images/mainCarouselImg/chart.jpg"
+    },
+    {
+      "id": 4,
+      "main_description": "샐러드를 먹더라도 맛있고 배부르게!",
+      "sub_description": "최우석의 다이어트 식단으로 건강한 몸 만들어요",
+      "thumbnail": "/images/mainCarouselImg/salad.jpg"
+    },
+    {
+      "id": 5,
+      "main_description": "전현수의 일본어 7일만에 뽀개기",
+      "sub_description": "식도락여행 일본어 회화 뽀개기 하루 3분 챌린지",
+      "thumbnail": "/images/mainCarouselImg/japan.jpg"
+    },
+    {
+      "id": 6,
+      "main_description": "하루 30분 러닝으로 건강해지기",
+      "sub_description": "러닝 마스터 신승호와 매일 함께 뛰어보아요",
+      "thumbnail": "/images/mainCarouselImg/running.jpg"
+    }
+  ]
+}
