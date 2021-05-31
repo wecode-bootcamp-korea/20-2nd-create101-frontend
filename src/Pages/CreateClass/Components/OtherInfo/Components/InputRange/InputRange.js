@@ -47,7 +47,7 @@ function InputRange(props) {
                 {Number(props.value.min).toLocaleString() + props.unit}
               </Value>
             </Thumb>
-            <Thumb rigth>
+            <Thumb right>
               <Value right>
                 {Number(props.value.max).toLocaleString() + props.unit}
               </Value>
@@ -161,7 +161,7 @@ const Value = styled.div`
     color: ${({ theme }) => theme.pink};
     font-size: 0.5rem;
     transform: ${props =>
-      props.end ? 'translateX(-120%)' : 'translateX(-60%)'};
+      props.right ? 'translateX(-120%)' : 'translateX(-60%)'};
     white-space: nowrap;
   }
 `;

@@ -1,25 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Heart, ShareApple } from '@styled-icons/evil';
+import { Heart as FilledHeart } from '@styled-icons/evaicons-solid';
 import { Person } from '@styled-icons/bootstrap';
 import { Coupon } from '@styled-icons/boxicons-solid';
 import QnA from './QnA/QnA';
+import { API } from '../../config';
 
 function Details() {
-  const tabRef = useRef([]);
-  const [currentTab, setCurrentTab] = useState();
+  const [like, setLike] = useState(false);
+  const [discounts, setDiscounts] = useState([false, false, false]);
+  const location = useLocation().pathname;
+  const id = location.split('/')[2];
 
   const [course, setCourse] = useState();
 
-  const [discounts, setDiscounts] = useState([false, false]);
-
   useEffect(() => {
-    fetch('/data/details.json')
+    fetch(`${API + location}`)
       .then(res => res.json())
       .then(res => {
-        setCourse(res.course);
+        setCourse(res.data.course);
       });
   }, []);
+
+  const tabRef = useRef([]);
+  const [currentTab, setCurrentTab] = useState();
 
   useEffect(() => {
     const tabObserver = new IntersectionObserver(
@@ -30,13 +36,37 @@ function Details() {
           }
         });
       },
-      { rootMargin: '-10% 0px', threshold: 0.1 }
+      { rootMargin: '-5% 0px', threshold: 0.1 }
     );
 
     tabRef.current.forEach(tab => tabObserver.observe(tab));
 
     return () => tabObserver.disconnect();
   }, [course]);
+
+  const handleLike = () => {
+    setLike(!like);
+    fetch(`${API}/like/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    });
+  };
+
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    fetch('/data/user.json')
+      // fetch(`http://10.58.5.232:8000/users/me`, {
+      //   headers: {
+      //     Authorization: localStorage.getItem('access_token'),
+      //   },
+      // })
+      .then(res => res.json())
+      .then(data => {
+        setUserData(data.user_info);
+      });
+  }, []);
 
   const asideContents = course && (
     <>
@@ -55,42 +85,61 @@ function Details() {
         </FlexBox>
         <Div>
           <CouponIcon />
-          김도은 님이 받으실 수 있는 혜택
+          {userData?.name} 님이 받으실 수 있는 혜택
         </Div>
         <FlexBox margin={'10px 0'}>
           <Bold>
             <CheckBox
-              type="checkbox"
+              type="radio"
+              name="discount"
               onChange={() => {
-                setDiscounts([!discounts[0], discounts[1]]);
+                setDiscounts([!discounts[0], false, false]);
               }}
             />
-            {course.month} 개월 할부
+            10,000원 쿠폰
           </Bold>
           <Price color={discounts[0] ? ({ theme }) => theme.pink : '#e6e6e6'}>
-            월 {Number(course.price / course.month).toLocaleString()} 원
+            할인가 {(course.price - 10000).toLocaleString()} 원
           </Price>
         </FlexBox>
         <FlexBox margin={'10px 0'}>
           <Bold>
             <CheckBox
-              type="checkbox"
+              type="radio"
+              name="discount"
               onChange={() => {
-                setDiscounts([discounts[0], !discounts[1]]);
+                setDiscounts([false, !discounts[1], false]);
               }}
             />
-            10,000원 쿠폰
+            신규회원 30% 쿠폰
           </Bold>
           <Price color={discounts[1] ? ({ theme }) => theme.pink : '#e6e6e6'}>
-            월 3,333 원
+            할인가 {(course.price * 0.7).toLocaleString()} 원
           </Price>
         </FlexBox>
+        {course.month !== 1 && (
+          <FlexBox margin={'10px 0'}>
+            <Bold>
+              <CheckBox
+                type="radio"
+                name="discount"
+                onChange={() => {
+                  setDiscounts([false, false, !discounts[2]]);
+                }}
+              />
+              {course.month} 개월 할부
+            </Bold>
+            <Price color={discounts[2] ? ({ theme }) => theme.pink : '#e6e6e6'}>
+              월 {parseInt(course.price / course.month).toLocaleString()} 원
+            </Price>
+          </FlexBox>
+        )}
       </Box>
       <Box>
         <FlexBox>
-          <Btn width="48%">
-            <EmptyHeart />
-            {course.counts_like}
+          <Btn width="48%" onClick={handleLike}>
+            {like ? <FullHeart /> : <EmptyHeart />}
+            {like ? course.counts_like + 1 : course.counts_like}
           </Btn>
           <Btn width="48%">
             <Share /> 공유하기
@@ -147,7 +196,11 @@ function Details() {
           </Info>
         </TabContents>
         <TabContents ref={ref => (tabRef.current[2] = ref)}>
-          <QnA questions={course.question} answers={course.answer} />
+          <QnA
+            questions={course.review}
+            answers={course.comment}
+            id={course.id}
+          />
         </TabContents>
       </Contents>
       <Aside>{asideContents}</Aside>
@@ -324,6 +377,12 @@ const Price = styled.span`
 
 const EmptyHeart = styled(Heart)`
   height: 25px;
+`;
+
+const FullHeart = styled(FilledHeart)`
+  height: 21px;
+  margin: 2px;
+  transform: translateY(-1px);
 `;
 
 const Share = styled(ShareApple)`

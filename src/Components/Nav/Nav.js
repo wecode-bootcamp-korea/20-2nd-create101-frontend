@@ -90,7 +90,6 @@ function Nav(props) {
         </div>
       )}
 
-      {/* ClickedSearchBar 컴포넌트 */}
       {clickedSearchBar && (
         <ClickedSearchBar
           clickedSearchBar={clickedSearchBar}
@@ -103,7 +102,7 @@ function Nav(props) {
         />
       )}
 
-      <div className="NavOutContainer">
+      <NavOutContainer>
         <NavInnerContainer>
           <TotalCategory
             onMouseEnter={() => {
@@ -121,10 +120,6 @@ function Nav(props) {
             클래스 생성하기
           </MakeClass>
         </NavInnerContainer>
-      </div>
-
-      {/* NavDropDown*/}
-      <div className="DropDownContainer">
         <div
           className="DropDownInnerContainer"
           onMouseEnter={() => {
@@ -138,7 +133,7 @@ function Nav(props) {
             <NavDropDownInnerBox>
               <div>
                 <CategoryInnerContainer>
-                  {categoryDatas.map((categoryData, idx) => (
+                  {categoryDatas?.map((categoryData, idx) => (
                     <ul>
                       <CategoryList
                         key={idx}
@@ -180,7 +175,7 @@ function Nav(props) {
             </NavDropDownInnerBox>
           )}
         </div>
-      </div>
+      </NavOutContainer>
     </WebNav>
   ) : null;
 }
@@ -243,7 +238,7 @@ const LoginText = styled.span`
   cursor: pointer;
 `;
 
-const MypageText = styled.span`
+const MypageText = styled.button`
   position: absolute;
   right: 25%;
   font-size: 14px;
@@ -262,7 +257,10 @@ const TotalCategory = styled.button`
   margin-left: 10px;
   padding: 8px 0 20px 0;
   cursor: pointer;
-  ${props => props.border && 'border-bottom: 3px solid black;'}
+  ${props =>
+    props.border
+      ? 'border-bottom: 3px solid black'
+      : '  border-bottom: 3px solid white'};
 `;
 
 const ArrowDownIcon = styled(ArrowDown)`
@@ -272,21 +270,27 @@ const ArrowDownIcon = styled(ArrowDown)`
 const MakeClass = styled.button`
   font-size: 14px;
   margin-left: 50px;
-  padding: 8px 0 20px 0;
+  padding: 8px 0 25px 0;
   cursor: pointer;
+  border-bottom: 3px solid white;
 
   &:hover {
     border-bottom: 3px solid black;
   }
 `;
 
-//NavDropDown
+const NavOutContainer = styled.div`
+  position: relative;
+  width: 1200px;
+  margin: auto;
+`;
+
 const NavDropDownInnerBox = styled.div`
   display: inline-flex;
   position: absolute;
-  z-index: 10;
+  left: -36px;
   background-color: white;
-  left: 15%;
+  z-index: 10;
 `;
 
 const CategoryInnerContainer = styled.div`

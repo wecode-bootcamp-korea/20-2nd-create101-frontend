@@ -4,10 +4,16 @@ import styled from 'styled-components';
 function Modal(props) {
   const { color, button, buttonClick, children } = props;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+    return () => (document.body.style.overflow = 'unset');
+  });
+
   return (
     <>
       <Background>
-        <Container>
+        <Container color={color}>
           <Contents>{children}</Contents>
           {button && (
             <Btn color={color} onClick={buttonClick}>
@@ -28,6 +34,7 @@ const Background = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,7 +43,7 @@ const Container = styled.div`
   margin: auto;
   padding: 4% 4% 6% 4%;
   background-color: white;
-  border: 3px solid ${({ theme }) => theme.pink};
+  border: 3px solid ${props => props.color};
   border-radius: 10px;
   font-weight: 500;
   text-align: center;

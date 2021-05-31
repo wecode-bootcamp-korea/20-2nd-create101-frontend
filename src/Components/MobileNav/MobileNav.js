@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import styled from 'styled-components/macro';
+import { withRouter, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import { Search } from '@styled-icons/bootstrap';
 import { Cancel, List, PersonOutline } from '@styled-icons/material';
 import { CreateNewFolder } from '@styled-icons/material-outlined';
@@ -12,8 +12,17 @@ function MobileNav(props) {
     JSON.parse(localStorage.getItem('search log')) || []
   );
   const [currentTab, setCurrentTab] = useState();
+  const [modal, setModal] = useState(false);
   const [categories, setCategories] = useState();
   const [searchInput, setSearchInput] = useState();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    search
+      ? (document.body.style.overflow = 'hidden')
+      : (document.body.style.overflow = 'unset');
+  }, [search]);
 
   useEffect(() => {
     fetch('/data/category.json')
@@ -24,8 +33,8 @@ function MobileNav(props) {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = currentTab === 1 ? 'hidden' : 'unset';
-  }, [currentTab]);
+    document.body.style.overflow = modal ? 'hidden' : 'unset';
+  }, [modal]);
 
   useEffect(() => {
     localStorage.setItem('search log', JSON.stringify(searchLog));
@@ -42,20 +51,39 @@ function MobileNav(props) {
   };
 
   const goToCategoryPage = e => {
+    setModal(false);
     props.history.push(`/category/${e.target.textContent}`);
   };
 
   const goToMainPage = () => {
+    setModal(false);
     props.history.push(`/`);
   };
 
   const goToSearchResultPage = searchInput => {
+    setSearch(false);
     props.history.push(`/category/${searchInput}`);
   };
 
   const goToSearchKeywordPage = e => {
+    setSearch(false);
     props.history.push(`/category/${e.target.textContent}`);
   };
+
+  const TAB_LISTS = [
+    {
+      name: '클래스',
+      icon: <Video />,
+      click: () => history.push('/'),
+    },
+    { name: '카테고리', icon: <ListIcon />, click: () => setModal(!modal) },
+    { name: 'create', icon: <Create />, click: () => history.push('/create') },
+    {
+      name: '마이페이지',
+      icon: <Person />,
+      click: () => history.push('/mypage'),
+    },
+  ];
 
   return (
     <Container>
@@ -98,29 +126,32 @@ function MobileNav(props) {
               취소
             </Span>
           </FlexDiv>
-          <Div>
-            <SearchTitle>최근 검색어</SearchTitle>
-            {searchLog.map(log => (
-              <FlexDiv key={log.id}>
-                {log.word}
-                <XIcon
-                  onClick={() => {
-                    delLog(log);
-                  }}
-                />
-              </FlexDiv>
-            ))}
-          </Div>
-          <Div>
-            <SearchTitle>추천 검색어</SearchTitle>
-            <KeyWordContainer>
-              {KEYWORDS.map((keyword, index) => (
-                <KeyWord key={index} onClick={e => goToSearchKeywordPage(e)}>
-                  {keyword}
-                </KeyWord>
+          <FullScreen>
+            <Div>
+              <SearchTitle>최근 검색어</SearchTitle>
+              {searchLog.map(log => (
+                <FlexDiv key={log.id}>
+                  {log.word}
+                  <XIcon
+                    onClick={() => {
+                      delLog(log);
+                    }}
+                  />
+                </FlexDiv>
               ))}
-            </KeyWordContainer>
-          </Div>
+            </Div>
+            <Div>
+              <SearchTitle>추천 검색어</SearchTitle>
+              <KeyWordContainer>
+                {KEYWORDS.map((keyword, index) => (
+                  <KeyWord key={index} onClick={e => goToSearchKeywordPage(e)}>
+                    {' '}
+                    {keyword}
+                  </KeyWord>
+                ))}
+              </KeyWordContainer>
+            </Div>
+          </FullScreen>
         </>
       )}
       <UnderBar>
@@ -130,7 +161,9 @@ function MobileNav(props) {
             onClick={e => {
               setCurrentTab(index);
               setSearch(false);
+              index !== 1 && setModal(false);
               window.scrollTo(0, 0);
+              tab.click();
             }}
             selected={currentTab === index}
           >
@@ -139,7 +172,7 @@ function MobileNav(props) {
           </Tab>
         ))}
       </UnderBar>
-      {currentTab === 1 && (
+      {modal && (
         <Menu>
           {categories.map(category => (
             <Div key={category.id}>
@@ -190,6 +223,11 @@ const FlexDiv = styled.div`
   flex-wrap: wrap;
   padding: 5px 10px;
   font-size: 0.8rem;
+`;
+
+const FullScreen = styled.div`
+  background-color: white;
+  height: 80vh;
 `;
 
 const SearchIcon = styled(Search)`
@@ -293,13 +331,6 @@ const Line = styled.hr`
   border: none;
   border-bottom: 1px solid #e6e6e6;
 `;
-
-const TAB_LISTS = [
-  { name: '클래스', icon: <Video /> },
-  { name: '카테고리', icon: <ListIcon /> },
-  { name: 'create', icon: <Create /> },
-  { name: '마이페이지', icon: <Person /> },
-];
 
 const KEYWORDS = ['축구', '농구', '돈까스', '투자', '프랑스', '독일'];
 

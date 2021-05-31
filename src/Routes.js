@@ -19,7 +19,7 @@ function Routes() {
       <Switch>
         <Route exact path="/" component={Main} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/details" component={Details} />
+        <Route exact path="/courses/:id" component={Details} />
         <Route exact path="/category" component={Category} />
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/category/:categoryName" component={Category} />

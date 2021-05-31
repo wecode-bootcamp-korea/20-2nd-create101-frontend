@@ -6,19 +6,33 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { API } from '../../config';
 
-const settings = {
-  dots: false,
-  lazyLoad: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-};
-
 function CardList(props) {
   const [newestData, setNewestData] = useState();
   const [popularData, setPopularData] = useState();
   const [mostReviewData, setMostReviewData] = useState();
+
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(document.body.clientWidth < 768);
+    window.addEventListener('resize', () =>
+      setMobile(document.body.clientWidth < 768)
+    );
+    return () => {
+      window.removeEventListener('resize', () =>
+        setMobile(document.body.clientWidth < 768)
+      );
+    };
+  }, []);
+
+  const settings = {
+    dots: false,
+    lazyLoad: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: mobile ? 2 : 4,
+    slidesToScroll: 1,
+  };
 
   useEffect(() => {
     fetch(`${API}/courses?sort=lastest`)
@@ -41,9 +55,9 @@ function CardList(props) {
   }, []);
 
   const LIST_DATA = [
-    { title: '실시간 인기 클래스', data: popularData },
-    { title: '최신 업데이트 클래스', data: newestData },
-    { title: '후기가 많은 클래스', data: mostReviewData },
+    { title: '🔥 실시간 인기 클래스', data: popularData },
+    { title: '✨ 최신 업데이트 클래스', data: newestData },
+    { title: '👍 후기가 많은 클래스', data: mostReviewData },
   ];
 
   return (
@@ -53,9 +67,7 @@ function CardList(props) {
           list.data && (
             <MainContainer key={index}>
               <CardListContainer>
-                <HeaderContainer>
-                  <div>&nbsp;{list.title}</div>
-                </HeaderContainer>
+                <HeaderContainer>{list.title}</HeaderContainer>
                 <Wrap>
                   <StyledSlider {...settings}>
                     {list.data.map((componentData, index) => {
@@ -77,38 +89,53 @@ function CardList(props) {
 const StyledSlider = styled(Slider)`
   .slick-prev:before {
     opacity: 1;
-    color: ${props => props.theme.classComponentLightGrey};
+    color: lightgray;
     left: 0;
   }
   .slick-next:before {
     opacity: 1;
-    color: ${props => props.theme.classComponentLightGrey};
+    color: lightgray;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    .slick-track {
+      display: flex;
+    }
+
+    .slick-slide {
+      margin: 0 4px;
+    }
   }
 `;
 
 const MainContainer = styled.div`
-  width: 75%;
-  margin: 45px auto;
+  width: 1200px;
+  margin: 60px auto;
 `;
 
 const CardListContainer = styled.div`
   position: relative;
-  width: 75%;
   margin: auto;
 `;
 
 const HeaderContainer = styled.div`
-  width: 85%;
   display: flex;
+  width: 85%;
   font-size: 25px;
   font-weight: bold;
-  margin: auto;
-  position: absolute;
+
+  @media ${({ theme }) => theme.mobile} {
+    margin-left: 20px;
+    font-size: 20px;
+  }
 `;
 
 const Wrap = styled.div`
-  width: 100%;
   margin: auto;
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 80%;
+  }
 `;
 
 export default CardList;

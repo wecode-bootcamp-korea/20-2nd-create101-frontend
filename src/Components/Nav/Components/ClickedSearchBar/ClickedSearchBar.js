@@ -128,7 +128,7 @@ const PopularSearchKeywords = ['임대차', '골프', '드로잉', '전세'];
 
 const ClickedSearch = styled.div`
   background-color: white;
-  width: 2000px;
+  width: 100vw;
   position: absolute;
   z-index: 10;
 `;

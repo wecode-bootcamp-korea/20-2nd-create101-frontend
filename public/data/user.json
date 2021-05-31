@@ -10,7 +10,7 @@
     ]
   },
   "user_course": {
-    "user_craete_course": [
+    "user_create_courses": [
       {
         "id": 3,
         "title": "탁구계의 끝판왕",
@@ -100,7 +100,7 @@
         "liked": false
       }
     ],
-    "liked_list": [
+    "liked_courses": [
       {
         "id": 1,
         "title": "축구계의 끝판왕",
@@ -113,7 +113,7 @@
         "liked": true
       }
     ],
-    "looked_list": [
+    "looked_courses": [
       {
         "id": 1,
         "title": "축구계의 끝판왕",

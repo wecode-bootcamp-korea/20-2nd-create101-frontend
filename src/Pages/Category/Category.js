@@ -131,7 +131,6 @@ function Category(props) {
                   ))}
                 </Fragment>
               ))}
-            <GridItem></GridItem>
           </GridContainer>
         </MobileAside>
         <Inventory>
@@ -192,9 +191,11 @@ const Aside = styled.div`
 
 const MobileAside = styled.div`
   display: none;
-  background-color: lightgray;
   @media ${({ theme }) => theme.mobile} {
     display: block;
+    background-color: lightgray;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
   }
 `;
 
@@ -204,11 +205,11 @@ const GridContainer = styled.div`
   grid-template-rows: repeat(3, 1fr);
   place-items: stretch stretch;
   gap: 1px 1px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 `;
 
 const GridItem = styled.div`
-  padding: 25px;
+  padding: 20px;
   color: ${props => (props.selected ? ({ theme }) => theme.orange : 'black')};
   background-color: white;
   text-align: center;
