@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from 'react';
 import styled from 'styled-components/macro';
 import CategoryCards from './Components/CategoryCards';
 import PageButtons from './Components/PageButtons';
-import { API, TEMP_API } from '../../config';
+import { API } from '../../config';
 
 function Category(props) {
   const [categories, setCategories] = useState();
@@ -12,6 +12,8 @@ function Category(props) {
   const categoryName = props.match.params.categoryName;
   const searchKeyword = props.match.params.categoryName;
 
+  const [didMount, setDidMount] = useState(false);
+
   useEffect(() => {
     //카테고리 데이터
     fetch(`${API}/courses/category`)
@@ -20,14 +22,21 @@ function Category(props) {
         setCategories(categoryData.category);
       });
     //전체 데이터
-    fetch(`${API}/courses`)
+    fetch(`${API}/courses`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setComponentDatas(data.courses);
       });
-  }, []);
+  }, [didMount]);
 
   useEffect(() => {
+    if (!didMount) {
+      return setDidMount(true);
+    }
     //카테고리 리스트 데이터
     const fetchDestination =
       categoryName.includes('취미') || categoryName.includes('수익창출')
@@ -41,8 +50,15 @@ function Category(props) {
   }, [categoryName]);
 
   useEffect(() => {
+    if (!didMount) {
+      return setDidMount(true);
+    }
     //검색 데이터
-    fetch(`${API}/courses?keyword=${searchKeyword}`)
+    fetch(`${API}/courses?keyword=${searchKeyword}`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setComponentDatas(data.courses);
@@ -100,7 +116,11 @@ function Category(props) {
         <MobileAside>
           <GridContainer>
             <GridItem
-              onClick={() => setCurrent('전체보기')}
+              onClick={() => {
+                setCurrent('전체보기');
+                setDidMount(false);
+                props.history.push('/category');
+              }}
               selected={current === '전체보기'}
             >
               전체 보기

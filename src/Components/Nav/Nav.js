@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Link, withRouter, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter, useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ClickedSearchBar from './Components/ClickedSearchBar/ClickedSearchBar';
 import { Search } from '@styled-icons/fa-solid';
 import { ArrowDown } from '@styled-icons/evaicons-solid';
 import { API } from '../../../src/config';
+import Modal from '../Modal/Modal';
 
 function Nav(props) {
   const [categoryDatas, setCategoryDatas] = useState();
@@ -18,6 +19,8 @@ function Nav(props) {
   const [login, setLogin] = useState('로그인');
   const location = useLocation().pathname;
 
+  const [alert, setAlert] = useState(false);
+
   useEffect(() => {
     fetch(`${API}/courses/category`)
       .then(res => res.json())
@@ -29,7 +32,7 @@ function Nav(props) {
   }, [searchLog]);
 
   useEffect(() => {
-    if (localStorage.getItem('kakao_4bc6915671ecc50762f3c678ed51a503')) {
+    if (localStorage.getItem('access_token')) {
       setLogin('로그아웃');
     } else {
       setLogin('로그인');
@@ -41,6 +44,7 @@ function Nav(props) {
       props.history.push(`/login`);
     } else {
       localStorage.removeItem('kakao_4bc6915671ecc50762f3c678ed51a503');
+      localStorage.removeItem('access_token');
       setLogin('로그인');
     }
   };
@@ -49,12 +53,15 @@ function Nav(props) {
     setSearchLog([...searchLog, { id: Date.now(), word: e.target[0].value }]);
     e.target[0].value = '';
   };
+
   const delLog = log => {
     setSearchLog(searchLog.filter(logToDel => logToDel.id !== log.id));
   };
 
   const goToPage = e => {
-    e.target.name
+    e.target.name === 'mypage' && !localStorage.getItem('access_token')
+      ? setAlert(true)
+      : e.target.name
       ? props.history.push(`/${e.target.name}`)
       : props.history.push(`/category/${e.target.textContent}`);
   };
@@ -112,6 +119,9 @@ function Nav(props) {
               setOnMouseBigCategory(false);
             }}
             border={onMouseBigCategory}
+            onClick={() => {
+              props.history.push('/category');
+            }}
           >
             전체 카테고리
             <ArrowDownIcon />
@@ -176,6 +186,17 @@ function Nav(props) {
           )}
         </div>
       </NavOutContainer>
+      {alert && (
+        <Modal
+          color="#FF5704"
+          button="확인"
+          buttonClick={() => {
+            setAlert(false);
+          }}
+        >
+          {<>로그인이 필요한 기능입니다. 💁</>}
+        </Modal>
+      )}
     </WebNav>
   ) : null;
 }
@@ -188,6 +209,7 @@ const WebNav = styled.div`
 
 const SearchInnerContainer = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   margin: 0 auto;
   padding: 20px 0;
@@ -233,14 +255,14 @@ const SearchIcon = styled(Search)`
 
 const LoginText = styled.span`
   position: absolute;
-  right: 20%;
+  right: 0;
   font-size: 14px;
   cursor: pointer;
 `;
 
 const MypageText = styled.button`
   position: absolute;
-  right: 25%;
+  right: 8%;
   font-size: 14px;
   cursor: pointer;
 `;

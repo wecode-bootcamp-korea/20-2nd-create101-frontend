@@ -17,10 +17,15 @@ function Details() {
   const [course, setCourse] = useState();
 
   useEffect(() => {
-    fetch(`${API + location}`)
+    fetch(`${API + location}`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(res => {
         setCourse(res.data.course);
+        setLike(res.data.course.liked);
       });
   }, []);
 
@@ -46,7 +51,8 @@ function Details() {
 
   const handleLike = () => {
     setLike(!like);
-    fetch(`${API}/like/${id}`, {
+    fetch(`${API}/users/like/${id}`, {
+      method: 'POST',
       headers: {
         Authorization: localStorage.getItem('access_token'),
       },
@@ -56,12 +62,12 @@ function Details() {
   const [userData, setUserData] = useState();
 
   useEffect(() => {
-    fetch('/data/user.json')
-      // fetch(`http://10.58.5.232:8000/users/me`, {
-      //   headers: {
-      //     Authorization: localStorage.getItem('access_token'),
-      //   },
-      // })
+    // fetch('/data/user.json')
+    fetch(`${API}/users/me`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setUserData(data.user_info);
@@ -85,38 +91,48 @@ function Details() {
         </FlexBox>
         <Div>
           <CouponIcon />
-          {userData?.name} 님이 받으실 수 있는 혜택
+          {userData
+            ? `${userData.name} 님이 받으실 수 있는 혜택`
+            : '로그인 후 더 많은 혜택을 확인하세요'}
         </Div>
-        <FlexBox margin={'10px 0'}>
-          <Bold>
-            <CheckBox
-              type="radio"
-              name="discount"
-              onChange={() => {
-                setDiscounts([!discounts[0], false, false]);
-              }}
-            />
-            10,000원 쿠폰
-          </Bold>
-          <Price color={discounts[0] ? ({ theme }) => theme.pink : '#e6e6e6'}>
-            할인가 {(course.price - 10000).toLocaleString()} 원
-          </Price>
-        </FlexBox>
-        <FlexBox margin={'10px 0'}>
-          <Bold>
-            <CheckBox
-              type="radio"
-              name="discount"
-              onChange={() => {
-                setDiscounts([false, !discounts[1], false]);
-              }}
-            />
-            신규회원 30% 쿠폰
-          </Bold>
-          <Price color={discounts[1] ? ({ theme }) => theme.pink : '#e6e6e6'}>
-            할인가 {(course.price * 0.7).toLocaleString()} 원
-          </Price>
-        </FlexBox>
+        {userData && (
+          <>
+            <FlexBox margin={'10px 0'}>
+              <Bold>
+                <CheckBox
+                  type="radio"
+                  name="discount"
+                  onChange={() => {
+                    setDiscounts([!discounts[0], false, false]);
+                  }}
+                />
+                10,000원 쿠폰
+              </Bold>
+              <Price
+                color={discounts[0] ? ({ theme }) => theme.pink : '#e6e6e6'}
+              >
+                할인가 {(course.price - 10000).toLocaleString()} 원
+              </Price>
+            </FlexBox>
+            <FlexBox margin={'10px 0'}>
+              <Bold>
+                <CheckBox
+                  type="radio"
+                  name="discount"
+                  onChange={() => {
+                    setDiscounts([false, !discounts[1], false]);
+                  }}
+                />
+                신규회원 30% 쿠폰
+              </Bold>
+              <Price
+                color={discounts[1] ? ({ theme }) => theme.pink : '#e6e6e6'}
+              >
+                할인가 {(course.price * 0.7).toLocaleString()} 원
+              </Price>
+            </FlexBox>
+          </>
+        )}
         {course.month !== 1 && (
           <FlexBox margin={'10px 0'}>
             <Bold>
@@ -156,7 +172,7 @@ function Details() {
     <Container>
       <Contents width={780}>
         <Thumbnail>
-          <img alt="class thumbnail" src={course.thumbnail_url} />
+          <Img alt="class thumbnail" src={course.thumbnail} />
         </Thumbnail>
         <AsideMobile>{asideContents}</AsideMobile>
         <Tabs>
@@ -214,7 +230,10 @@ const detailImg = '/images/detail1.png';
 const Container = styled.div`
   display: flex;
   width: 1200px;
-  margin: 50px auto;
+
+  @media ${({ theme }) => theme.web} {
+    margin: 50px auto;
+  }
 
   @media ${({ theme }) => theme.mobile} {
     flex-direction: column;
@@ -242,6 +261,15 @@ const Thumbnail = styled.div`
   @media ${({ theme }) => theme.web} {
     height: 500px;
   }
+
+  @media ${({ theme }) => theme.mobile} {
+    height: 200px;
+  }
+`;
+
+const Img = styled.img`
+  min-width: 100%;
+  height: 100%;
 `;
 
 const Tabs = styled.div`
@@ -344,6 +372,7 @@ const FlexBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin: ${props => props.margin};
+  font-size: 0.9rem;
 `;
 
 const Btn = styled.button`

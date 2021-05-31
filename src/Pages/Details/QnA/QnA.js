@@ -1,30 +1,48 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { PersonCircle, PlusCircle } from '@styled-icons/bootstrap';
-import { PaperPlane } from '@styled-icons/ionicons-outline';
+import { API } from '../../../config';
 
 function QnA(props) {
-  const { questions, answers, id } = props;
+  const [questions, setQuestions] = useState(props.questions);
+  const [answers, setAnswers] = useState(props.answers);
+  // const { questions, answers, id } = props;
+
   const [textArea, setTextArea] = useState(false);
 
+  const text = useRef([]);
+
   const leaveQuestion = question => {
-    fetch(`http://10.58.2.242:8000/courses/review/${id}`, {
+    fetch(`${API}/courses/review/${props.id}`, {
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('access_token'),
       },
       body: JSON.stringify({ text: question }),
-    });
+    })
+      .then(getData)
+      .then((text.current[0].value = ''));
   };
 
-  const leaveComment = (comment, questionId) => {
-    fetch(`http://10.58.2.242:8000/courses/comment/${questionId}`, {
+  const leaveComment = (comment, questionId, id) => {
+    fetch(`${API}/courses/comment/${questionId}`, {
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('access_token'),
       },
       body: JSON.stringify({ text: comment }),
-    });
+    })
+      .then(getData)
+      .then((text.current[id].value = ''));
+  };
+
+  const getData = () => {
+    fetch(`${API}/courses/${props.id}`)
+      .then(res => res.json())
+      .then(res => {
+        setQuestions(res.data.course.review);
+        setAnswers(res.data.course.comment);
+      });
   };
 
   return (
@@ -52,9 +70,13 @@ function QnA(props) {
         </form>
       </Bar>
       {textArea && (
-        <TextArea form="question" placeholder="내용을 입력해 주세요." />
+        <TextArea
+          form="question"
+          placeholder="내용을 입력해 주세요."
+          ref={el => (text.current[0] = el)}
+        />
       )}
-      {questions.map(question => (
+      {questions.map((question, index) => (
         <Article key={question.id}>
           <Bar>
             <div>
@@ -76,13 +98,21 @@ function QnA(props) {
                 </Comment>
               ))}
             <InputContainer>
-              <form id="comment">
-                <Input form="comment" placeholder="댓글을 입력해 주세요." />
+              <form id={`comment${question.id}`}>
+                <Input
+                  ref={el => (text.current[index + 1] = el)}
+                  form={`comment${question.id}`}
+                  placeholder="댓글을 입력해 주세요."
+                />
                 <Plus />
                 <CommentBtn
                   onClick={e => {
                     e.preventDefault();
-                    leaveComment(e.target.form[0].value, question.id);
+                    leaveComment(
+                      e.target.form[0].value,
+                      question.id,
+                      index + 1
+                    );
                   }}
                 >
                   등록
@@ -120,6 +150,7 @@ const TextArea = styled.textarea`
 
 const Span = styled.span`
   margin-right: ${props => props.right}px;
+  flex-shrink: ${props => props.right && 0};
   color: ${props => props.color};
   font-size: ${props => props.size}rem;
   font-weight: ${props => props.bold && 'bold'};
@@ -160,11 +191,12 @@ const Comment = styled.div`
   display: flex;
   align-items: flex-start;
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   margin: 5px;
   background-color: #f3f3f3;
   border-radius: 25px;
   font-size: 0.8rem;
+  line-height: 2;
 `;
 
 const InputContainer = styled.div`

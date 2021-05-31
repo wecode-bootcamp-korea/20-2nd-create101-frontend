@@ -39,8 +39,9 @@ function SocialLogin() {
     Kakao.Auth.login({
       scope: 'profile, account_email, gender, age_range',
       success: function (response) {
-        fetch(`http://10.58.5.232:8000/users/login/kakao`, {
-          method: 'post',
+        fetch(`${API}/users/login/kakao`, {
+          // fetch(`http://10.58.5.232:8000/users/login/kakao`, {
+          method: 'POST',
           headers: {
             Authorization: response.access_token,
           },
@@ -49,14 +50,11 @@ function SocialLogin() {
           .then(res => {
             if (res['Authorization']) {
               localStorage.setItem('access_token', res['Authorization']);
-              // alert('Welcome to Create 101!');
-              // history.push('/');
               setAlert('success');
             }
           });
       },
       fail: function (error) {
-        // alert('로그인에 실패했습니다.');
         setAlert('fail');
       },
     });
