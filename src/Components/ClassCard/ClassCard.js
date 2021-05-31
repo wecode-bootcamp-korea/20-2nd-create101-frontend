@@ -1,16 +1,55 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Heart } from '@styled-icons/evil';
+import { Heart as FilledHeart } from '@styled-icons/evaicons-solid';
+import { API } from '../../config';
 
-function CardComponent(props) {
+function ClassCard(props) {
   const { componentData } = props;
+
+  const [like, setLike] = useState(componentData.liked);
+
+  const handleLike = id => {
+    setLike(!like);
+    fetch(`http://10.58.5.232:8000/users/like/${id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    });
+  };
+
+  const history = useHistory();
+
+  const handleClick = id => {
+    history.push(`/courses/${id}`);
+    fetch(`http://10.58.5.232:8000/users/look/${id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    });
+  };
+
   return (
-    <MainContainer>
+    <MainContainer
+      onClick={() => {
+        handleClick(componentData.id);
+      }}
+      alignLeft={props.left}
+    >
       <div>
         <ImageContainer>
           <span>
-            <Picture src={componentData.thumbnail} alt="class image" />
-            <SaveButton />
+            <Picture src={componentData.thumbnail} alt="class thumbnail" />
+            {like && <FilledButton />}
+            <SaveButton
+              onClick={e => {
+                e.stopPropagation();
+                handleLike(componentData.id);
+              }}
+            />
           </span>
         </ImageContainer>
         <div>
@@ -23,7 +62,9 @@ function CardComponent(props) {
           <Text>{componentData.title}</Text>
           <HeartContainer>
             <HeartButton />
-            <HeartCount>{componentData.like}</HeartCount>
+            <HeartCount>
+              {like ? componentData.like + 1 : componentData.like}
+            </HeartCount>
           </HeartContainer>
         </div>
         <DividerContainer>
@@ -60,27 +101,43 @@ function CardComponent(props) {
 }
 
 const MainContainer = styled.div`
-  width: 260px;
-  margin: 25px 15px;
-  margin-top: 50px;
+  width: 270px;
+  margin: 25px ${props => (props.alignLeft ? '10px' : 'auto')};
+  cursor: pointer;
 
   @media ${({ theme }) => theme.mobile} {
-    width: 160px;
-    margin: 10px;
+    width: 38vw;
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
+  margin: 5px 0;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const Picture = styled.img`
   width: 100%;
-  border-radius: 5px;
+  object-fit: cover;
+
+  &:hover {
+    animation: mouseover 1s;
+  }
+
+  @keyframes mouseover {
+    from {
+      transform: scale(1.1);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 `;
 
 const SaveButton = styled(Heart)`
-  width: 10%;
+  color: white;
+  width: 30px;
   position: absolute;
   top: 8px;
   right: 8px;
@@ -88,10 +145,19 @@ const SaveButton = styled(Heart)`
   color: white;
 `;
 
+const FilledButton = styled(FilledHeart)`
+  color: white;
+  width: 26px;
+  position: absolute;
+  top: 9px;
+  right: 10px;
+`;
+
 const InfoTagContainer = styled.div`
   display: flex;
   padding: 5px 5px 2px 0px;
   font-size: 12px;
+  font-weight: 600;
 `;
 
 const FirstInfoTag = styled.div`
@@ -158,4 +224,4 @@ const Month = styled.div`
   align-items: flex-end;
 `;
 
-export default CardComponent;
+export default ClassCard;

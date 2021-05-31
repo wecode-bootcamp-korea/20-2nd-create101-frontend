@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClassCardList from '../../Components/ClassCard/ClassCardList';
-import Nav from '../../Components/Nav/Nav';
+import ClassCard from '../../Components/ClassCard/ClassCard';
+
 import MainCarousel from './Components/MainCarousel/MainCarousel';
 
 function Main() {

@@ -47,13 +47,14 @@ const PageButtons = props => {
 };
 
 const PageButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
   width: 200px;
   height: fit-content;
-  color: black;
-  display: flex;
   margin: 50px auto;
+  color: black;
   letter-spacing: 10px;
-  justify-content: center;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
@@ -62,6 +63,7 @@ const Button = styled.button`
   background-color: ${props =>
     props.selected ? ({ theme }) => theme.orange : null};
   border-radius: 15px;
+  cursor: pointer;
 `;
 
 const LeftArrowButton = styled(ArrowIosBackOutline)`

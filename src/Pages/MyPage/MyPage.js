@@ -9,14 +9,13 @@ function MyPage(props) {
 
   useEffect(() => {
     fetch('/data/user.json')
-      // fetch('http://10.58.5.232:8000/users/me', {
+      // fetch(`http://10.58.5.232:8000/users/me`, {
       //   headers: {
       //     Authorization: localStorage.getItem('access_token'),
       //   },
       // })
       .then(res => res.json())
       .then(data => {
-        console.log(data.message);
         setUserData(data.user_info);
         setCourseData(data.user_course);
       });
@@ -48,24 +47,24 @@ function MyPage(props) {
         <Box>
           <Large>👀 내가 본 클래스</Large>
           <ClassList>
-            {courseData?.looked_list.map(course => (
-              <ClassCard componentData={course} key={course.id} />
+            {courseData?.looked_courses.map(course => (
+              <ClassCard componentData={course} key={course.id} left />
             ))}
           </ClassList>
         </Box>
         <Box>
           <Large>🧡 내가 찜한 클래스</Large>
           <ClassList>
-            {courseData?.liked_list.map(course => (
-              <ClassCard componentData={course} key={course.id} />
+            {courseData?.liked_courses.map(course => (
+              <ClassCard componentData={course} key={course.id} left />
             ))}
           </ClassList>
         </Box>
         <Box>
           <Large>👩‍🏫 내가 만든 클래스</Large>
           <ClassList>
-            {courseData?.user_craete_course.map(course => (
-              <ClassCard componentData={course} key={course.id} />
+            {courseData?.user_create_courses.map(course => (
+              <ClassCard componentData={course} key={course.id} left />
             ))}
           </ClassList>
         </Box>
@@ -152,6 +151,10 @@ const Contents = styled.div`
   width: 900px;
   margin: auto;
   padding: 5px;
+
+  @media ${({ theme }) => theme.mobile} {
+    padding: 20px;
+  }
 `;
 
 const Box = styled.div`
@@ -160,6 +163,7 @@ const Box = styled.div`
 
 const ClassList = styled.div`
   display: flex;
+  justify-content: flex-start;
   flex-wrap: wrap;
 `;
 

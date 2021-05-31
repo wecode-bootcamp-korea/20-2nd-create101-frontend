@@ -39,27 +39,15 @@ function Footer() {
         </InfoContainer>
         <DetailContainer>
           <Location>
-            <a>Create101 Korea </a>
-            <a> ・ Create101 USA</a>
-            <a> ・ Create101 Japan</a>
+            Create101 Korea ・ Create101 USA ・ Create101 Japan
             <br />
-            <a>Instagram</a>
-            <a> ・ Youtube</a>
-            <a> ・ Facebook</a>
-            <a> ・ Naverpost</a>
-            <a> ・ Naverblog</a>
-            <a> ・ Playstore</a>
-            <a> ・ Appstore</a>
+            Instagram ・ Youtube ・ Facebook ・ Naverpost ・ Naverblog ・
+            Playstore ・ Appstore
           </Location>
           <OtherInfo>
-            <a>이용약관</a>
-            <a> ・ 개인정보 처리방침</a>
-            <a> ・ 정기구독서비스 이용약관</a>
-            <a> ・ 환불 정책</a>
-            <a> ・ 사업자 정보 확인</a>
-            <a> ・ 단체/기업 교육 문의</a>
-            <a> ・ 제휴/협력 문의</a>
-            <a> ・ PR 관련 문의</a>
+            이용약관 ・ 개인정보 처리방침 ・ 정기구독서비스 이용약관 ・ 환불
+            정책 ・ 사업자 정보 확인 ・ 단체/기업 교육 문의 ・ 제휴/협력 문의 ・
+            PR 관련 문의
           </OtherInfo>
         </DetailContainer>
       </FooterContainer>
@@ -72,22 +60,34 @@ export default Footer;
 const FooterContainer = styled.div`
   max-width: 1200px;
   margin: auto;
+  margin-top: 100px;
+
+  @media ${({ theme }) => theme.mobile} {
+    margin-top: 30px;
+  }
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   padding-bottom: 40px;
+
+  @media ${({ theme }) => theme.mobile} {
+    flex-direction: column;
+    padding: 20px;
+  }
 `;
 
 const SloganContainer = styled.div`
-  width: 60%;
+  @media ${({ theme }) => theme.web} {
+    width: 60%;
+  }
 `;
 
 const InformationContainer = styled.div`
-  width: 100%;
   display: flex;
-  line-height: 30px;
+  width: 100%;
   font-size: 15px;
+  line-height: 30px;
 `;
 
 const Logo = styled.img`
@@ -105,7 +105,7 @@ const Language = styled.div`
 `;
 
 const CompanyContainer = styled.div`
-  width: 33%; ;
+  width: 33%;
 `;
 
 const Title = styled.div`
@@ -130,16 +130,26 @@ const Time = styled.div`
 
 const DetailContainer = styled.div`
   display: flex;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid ${props => props.theme.classComponentLightGrey}; ;
+  border-top: 1px solid ${props => props.theme.classComponentLightGrey};
+
+  @media ${({ theme }) => theme.web} {
+    padding: 20px 0;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    flex-direction: column;
+    padding: 20px;
+  }
 `;
 
 const Location = styled.div`
-  width: 60%;
   font-size: 13px;
   line-height: 20px;
   color: ${props => props.theme.classComponentGrey};
+
+  @media ${({ theme }) => theme.web} {
+    width: 60%;
+  }
 `;
 
 const OtherInfo = styled.div`

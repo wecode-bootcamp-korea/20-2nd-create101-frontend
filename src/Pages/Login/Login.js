@@ -2,11 +2,38 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory, withRouter } from 'react-router-dom';
 import { API } from '../../config';
+import Modal from '../../Components/Modal/Modal';
 
-const { Kakao } = window;
-
-function SocialLogin(props) {
+function SocialLogin() {
+  const { Kakao } = window;
   const history = useHistory();
+  const [alert, setAlert] = useState(false);
+
+  const MODAL_CONTENTS = {
+    success: (
+      <Modal
+        color="#FF5704"
+        button="확인"
+        buttonClick={() => {
+          setAlert(false);
+          history.push('/');
+        }}
+      >
+        {<>Welcome to Create 101! 🙋</>}
+      </Modal>
+    ),
+    fail: (
+      <Modal
+        color="#FF5704"
+        button="확인"
+        buttonClick={() => {
+          setAlert(false);
+        }}
+      >
+        {<>로그인에 실패했습니다. 🙅</>}
+      </Modal>
+    ),
+  };
 
   const KakaoLoginHandler = () => {
     Kakao.Auth.login({
@@ -22,13 +49,15 @@ function SocialLogin(props) {
           .then(res => {
             if (res['Authorization']) {
               localStorage.setItem('access_token', res['Authorization']);
-              alert('Welcome to Create 101!');
-              history.push('/');
+              // alert('Welcome to Create 101!');
+              // history.push('/');
+              setAlert('success');
             }
           });
       },
       fail: function (error) {
-        alert('로그인에 실패했습니다.');
+        // alert('로그인에 실패했습니다.');
+        setAlert('fail');
       },
     });
   };
@@ -45,6 +74,9 @@ function SocialLogin(props) {
           <Language>🇰🇷 한국어</Language>
         </HeaderBar>
         <TagContainer>
+          <MobileImageContainer>
+            <img alt="" src="/images/loginImage.jpg" />
+          </MobileImageContainer>
           <TagLine>
             새로운 삶을 시작하는
             <br />
@@ -63,25 +95,39 @@ function SocialLogin(props) {
         />
       </Main>
       <ImageContainer>
-        <Image alt="" src="/images/loginImage.jpg"></Image>
+        <Image alt="" src="/images/loginImage.jpg" />
       </ImageContainer>
+      {alert && MODAL_CONTENTS[alert]}
     </Container>
   );
 }
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 50% 50%;
+  @media ${({ theme }) => theme.web} {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 85%;
+    margin: auto;
+  }
 `;
 
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  height: 100vh;
-  width: 50%;
   position: relative;
+
+  @media ${({ theme }) => theme.web} {
+    justify-content: center;
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 100%;
+  }
 `;
 
 const HeaderBar = styled.div`
@@ -93,12 +139,16 @@ const HeaderBar = styled.div`
   top: 80px;
   margin: auto;
   margin-bottom: 200px;
+
+  @media ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 
 const Logo = styled.img`
   display: flex;
   align-items: center;
-  width: 50px;
+  width: 80px;
 `;
 
 const Language = styled.div`
@@ -107,19 +157,51 @@ const Language = styled.div`
 `;
 
 const TagContainer = styled.div`
-  margin-bottom: 50px;
+  @media ${({ theme }) => theme.web} {
+    margin-bottom: 50px;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    margin-bottom: 30px;
+  }
+`;
+
+const MobileImageContainer = styled.div`
+  @media ${({ theme }) => theme.web} {
+    display: none;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 100%;
+    height: 200px;
+    margin: 30px 0;
+    overflow: hidden;
+  }
 `;
 
 const TagLine = styled.div`
   font-weight: bold;
-  font-size: 35px;
-  line-height: 44px;
+
+  @media ${({ theme }) => theme.web} {
+    font-size: 35px;
+    line-height: 44px;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    font-size: 25px;
+    line-height: 32px;
+  }
 `;
 
 const SubTagLine = styled.div`
   color: ${props => props.theme.SubTagLineColor};
   margin-top: 15px;
   line-height: 25px;
+
+  @media ${({ theme }) => theme.mobile} {
+    font-size: 16px;
+    line-height: 20px;
+  }
 `;
 
 const LoginButton = styled.img`
@@ -130,6 +212,10 @@ const ImageContainer = styled.div`
   height: 100vh;
   display: flex;
   justify-content: flex-end;
+
+  @media ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 
 const Image = styled.img`

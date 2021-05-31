@@ -29,96 +29,92 @@ function MainCarousel() {
 
   return mainCarouselDatas ? (
     <Fragment>
-      <div>
-        <div>
-          <BlurBackgroundShow>
-            <BlurBackgroundImages
-              style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+      <BlurBackgroundShow>
+        <BlurBackgroundImages
+          style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+        >
+          {mainCarouselDatas.map((mainCarouselData, idx) => {
+            return (
+              <BlurBackground
+                key={idx}
+                alt="블러배경"
+                src={mainCarouselData.thumbnail}
+              />
+            );
+          })}
+        </BlurBackgroundImages>
+      </BlurBackgroundShow>
+
+      <CarouselContents>
+        <ImageShow>
+          <SlidingImages
+            style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+          >
+            {mainCarouselDatas.map((mainCarouselData, idx) => {
+              return (
+                <Image
+                  key={idx}
+                  alt="클래스이미지"
+                  src={mainCarouselData.thumbnail}
+                />
+              );
+            })}
+          </SlidingImages>
+        </ImageShow>
+
+        <SlidingContents>
+          <DescriptionShow>
+            <SlidingDescriptions
+              style={{ transform: `translate3d(${-index * 100}%,0,0)` }}
             >
               {mainCarouselDatas.map((mainCarouselData, idx) => {
                 return (
-                  <BlurBackground
-                    key={idx}
-                    alt="블러배경"
-                    src={mainCarouselData.thumbnail}
-                  />
+                  <Description key={idx}>
+                    <MainDescription>
+                      {mainCarouselData.main_description}
+                    </MainDescription>
+                    <SubDescription>
+                      {mainCarouselData.sub_description}
+                    </SubDescription>
+                  </Description>
                 );
               })}
-            </BlurBackgroundImages>
-          </BlurBackgroundShow>
+            </SlidingDescriptions>
+          </DescriptionShow>
 
-          <CarouselContents>
-            <ImageShow>
-              <SlidingImages
-                style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+          <ProgressNavigator>
+            <Index>
+              <CurrentIndex>{`${index + 1} | `} </CurrentIndex>
+              <TotalLength>{`${mainCarouselDatas.length}`}</TotalLength>
+            </Index>
+            <ProgressBar>
+              <CurrentProgress />
+            </ProgressBar>
+            <div className="ArrowIcons">
+              <ArrowLeftBtn
+                type="button"
+                onClick={() => {
+                  index === 0
+                    ? setIndex(mainCarouselDatas.length - 1)
+                    : setIndex(index - 1);
+                }}
               >
-                {mainCarouselDatas.map((mainCarouselData, idx) => {
-                  return (
-                    <Image
-                      key={idx}
-                      alt="클래스이미지"
-                      src={mainCarouselData.thumbnail}
-                    />
-                  );
-                })}
-              </SlidingImages>
-            </ImageShow>
-
-            <SlidingContents>
-              <DescriptionShow>
-                <SlidingDescriptions
-                  style={{ transform: `translate3d(${-index * 100}%,0,0)` }}
-                >
-                  {mainCarouselDatas.map((mainCarouselData, idx) => {
-                    return (
-                      <Description key={idx}>
-                        <MainDescription>
-                          {mainCarouselData.main_description}
-                        </MainDescription>
-                        <SubDescription>
-                          {mainCarouselData.sub_description}
-                        </SubDescription>
-                      </Description>
-                    );
-                  })}
-                </SlidingDescriptions>
-              </DescriptionShow>
-
-              <ProgressNavigator>
-                <div className="progressNavigatorIndex">
-                  <CurrentIndex>{`${index + 1} | `} </CurrentIndex>
-                  <TotalLength>{`${mainCarouselDatas.length}`}</TotalLength>
-                </div>
-                <ProgressBar>
-                  <CurrentProgress />
-                </ProgressBar>
-                <div className="ArrowIcons">
-                  <ArrowLeftBtn
-                    type="button"
-                    onClick={() => {
-                      index === 0
-                        ? setIndex(mainCarouselDatas.length - 1)
-                        : setIndex(index - 1);
-                    }}
-                  >
-                    <ArrowLeftIcon />
-                  </ArrowLeftBtn>
-                  <ArrowRightBtn
-                    type="button"
-                    onClick={() => {
-                      index === mainCarouselDatas.length - 1
-                        ? setIndex(0)
-                        : setIndex(index + 1);
-                    }}
-                  >
-                    <ArrowRightIcon />
-                  </ArrowRightBtn>
-                </div>
-              </ProgressNavigator>
-            </SlidingContents>
-          </CarouselContents>
-        </div>
-      </div>
+                <ArrowLeftIcon />
+              </ArrowLeftBtn>
+              <ArrowRightBtn
+                type="button"
+                onClick={() => {
+                  index === mainCarouselDatas.length - 1
+                    ? setIndex(0)
+                    : setIndex(index + 1);
+                }}
+              >
+                <ArrowRightIcon />
+              </ArrowRightBtn>
+            </div>
+          </ProgressNavigator>
+        </SlidingContents>
+      </CarouselContents>
     </Fragment>
   ) : null;
 }
@@ -146,20 +142,39 @@ const BlurBackground = styled.img`
   width: 100%;
   height: 430px;
   filter: blur(6px);
+
+  @media ${({ theme }) => theme.mobile} {
+    height: 260px;
+  }
 `;
 
 const ImageShow = styled.div`
-  margin: 0 auto;
+  margin: 0 20px;
   overflow: hidden;
   max-width: 550px;
+
+  @media ${({ theme }) => theme.mobile} {
+    height: 200px;
+  }
 `;
 
 const CarouselContents = styled.div`
+  display: flex;
   position: relative;
   bottom: 350px;
-  display: flex;
   margin: 0 auto;
-  width: 70%;
+
+  @media ${({ theme }) => theme.web} {
+    width: fit-content;
+    margin-bottom: -320px;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    flex-direction: column;
+    bottom: 180px;
+    width: 90%;
+    margin-bottom: -180px;
+  }
 `;
 
 const SlidingImages = styled.section`
@@ -172,19 +187,31 @@ const Image = styled.img`
   height: 400px;
   width: 100%;
   object-fit: cover;
-  border-radius: 10px;
 `;
 
 const SlidingContents = styled.section`
-  width: 450px;
-  position: relative;
-  top: 20px;
+  overflow: hidden;
+
+  @media ${({ theme }) => theme.web} {
+    width: 450px;
+    transform: translateY(20px);
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 355px;
+  }
 `;
 
 const DescriptionShow = styled.div`
   margin: 0 auto;
   overflow: hidden;
   max-width: 450px;
+
+  @media ${({ theme }) => theme.mobile} {
+    position: absolute;
+    top: -50px;
+    width: 355px;
+  }
 `;
 
 const SlidingDescriptions = styled.div`
@@ -193,8 +220,15 @@ const SlidingDescriptions = styled.div`
 `;
 
 const Description = styled.div`
-  width: 450px;
   display: inline-block;
+
+  @media ${({ theme }) => theme.web} {
+    width: 450px;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 355px;
+  }
 `;
 
 const MainDescription = styled.p`
@@ -202,20 +236,39 @@ const MainDescription = styled.p`
   font-weight: 700;
   color: white;
   line-height: 1.5;
+
+  @media ${({ theme }) => theme.mobile} {
+    font-size: 22px;
+  }
 `;
 
 const SubDescription = styled.p`
   margin-top: 20px;
   line-height: 1.2;
   color: white;
+  overflow: hidden;
+
+  @media ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 
 const ProgressNavigator = styled.div`
+  display: flex;
   position: absolute;
   bottom: 100px;
-  display: flex;
   align-items: center;
   font-size: 15px;
+
+  @media ${({ theme }) => theme.mobile} {
+    left: 30px;
+    width: 85%;
+    bottom: 15px;
+  }
+`;
+
+const Index = styled.span`
+  flex-shrink: 0;
 `;
 
 const CurrentIndex = styled.span`
@@ -232,6 +285,10 @@ const ProgressBar = styled.div`
   height: 1px;
   background-color: grey;
   overflow: hidden;
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 100%;
+  }
 `;
 
 const CurrentProgress = styled.div`
@@ -245,6 +302,10 @@ const CurrentProgress = styled.div`
 const ArrowLeftBtn = styled.button`
   margin-right: 10px;
   cursor: pointer;
+
+  @media ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 
 const ArrowLeftIcon = styled(ArrowIosBackOutline)`
@@ -254,6 +315,10 @@ const ArrowLeftIcon = styled(ArrowIosBackOutline)`
 
 const ArrowRightBtn = styled.button`
   cursor: pointer;
+
+  @media ${({ theme }) => theme.mobile} {
+    display: none;
+  }
 `;
 
 const ArrowRightIcon = styled(ArrowIosForwardOutline)`

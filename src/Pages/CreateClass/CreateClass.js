@@ -81,7 +81,7 @@ function CreateClass(props) {
     ),
 
     ing: (
-      <Modal>
+      <Modal color="#e94650">
         {
           <>
             <Loading />
@@ -92,7 +92,7 @@ function CreateClass(props) {
     ),
     created: (
       <Modal
-        color={({ theme }) => theme.pink}
+        color="#e94650"
         button="보러가기 👀"
         buttonClick={() => {
           setLoading(false);
@@ -188,8 +188,9 @@ const Container = styled.div`
 `;
 
 const Aside = styled.div`
-  width: 240px;
+  width: 180px;
   margin: 20px auto;
+  font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
 
@@ -245,7 +246,7 @@ const Btn = styled.button`
 `;
 
 const Contents = styled.div`
-  width: 800px;
+  width: 700px;
   padding: 50px;
 
   @media ${({ theme }) => theme.mobile} {

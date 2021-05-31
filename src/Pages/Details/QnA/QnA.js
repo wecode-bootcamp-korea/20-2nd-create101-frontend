@@ -4,9 +4,28 @@ import { PersonCircle, PlusCircle } from '@styled-icons/bootstrap';
 import { PaperPlane } from '@styled-icons/ionicons-outline';
 
 function QnA(props) {
+  const { questions, answers, id } = props;
   const [textArea, setTextArea] = useState(false);
 
-  const { questions, answers } = props;
+  const leaveQuestion = question => {
+    fetch(`http://10.58.2.242:8000/courses/review/${id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({ text: question }),
+    });
+  };
+
+  const leaveComment = (comment, questionId) => {
+    fetch(`http://10.58.2.242:8000/courses/comment/${questionId}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+      body: JSON.stringify({ text: comment }),
+    });
+  };
 
   return (
     <Container>
@@ -19,15 +38,22 @@ function QnA(props) {
             {questions.length}개의 글
           </Span>
         </div>
-        <Btn
-          onClick={() => {
-            setTextArea(!textArea);
-          }}
-        >
-          글 작성하기
-        </Btn>
+        <form id="question">
+          <Btn
+            onClick={e => {
+              e.preventDefault();
+              textArea
+                ? leaveQuestion(e.target.form[1].value)
+                : setTextArea(!textArea);
+            }}
+          >
+            글 작성하기
+          </Btn>
+        </form>
       </Bar>
-      {textArea && <TextArea placeholder="내용을 입력해 주세요." />}
+      {textArea && (
+        <TextArea form="question" placeholder="내용을 입력해 주세요." />
+      )}
       {questions.map(question => (
         <Article key={question.id}>
           <Bar>
@@ -50,9 +76,18 @@ function QnA(props) {
                 </Comment>
               ))}
             <InputContainer>
-              <Input placeholder="댓글을 입력해 주세요." />
-              <Plus />
-              <Plane />
+              <form id="comment">
+                <Input form="comment" placeholder="댓글을 입력해 주세요." />
+                <Plus />
+                <CommentBtn
+                  onClick={e => {
+                    e.preventDefault();
+                    leaveComment(e.target.form[0].value, question.id);
+                  }}
+                >
+                  등록
+                </CommentBtn>
+              </form>
             </InputContainer>
           </Comments>
         </Article>
@@ -154,12 +189,13 @@ const Plus = styled(PlusCircle)`
   color: lightgray;
 `;
 
-const Plane = styled(PaperPlane)`
+const CommentBtn = styled.button`
   position: absolute;
   top: 10px;
   right: 20px;
   width: 30px;
-  color: lightgray;
+  color: gray;
+  cursor: pointer;
 `;
 
 export default QnA;
