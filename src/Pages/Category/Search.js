@@ -4,15 +4,12 @@ import CategoryCards from './Components/CategoryCards';
 import PageButtons from './Components/PageButtons';
 import { API } from '../../config';
 
-function Category(props) {
+function Search(props) {
   const [categories, setCategories] = useState();
   const [current, setCurrent] = useState();
   const [componentDatas, setComponentDatas] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const categoryName = props.match.params.categoryName;
-  const searchKeyword = props.match.params.categoryName;
-
-  const [didMount, setDidMount] = useState(false);
+  const searchKeyword = props.match.params.searchKeyWord;
 
   useEffect(() => {
     //카테고리 데이터
@@ -21,8 +18,10 @@ function Category(props) {
       .then(categoryData => {
         setCategories(categoryData.category);
       });
-    //전체 데이터
-    fetch(`${API}/courses`, {
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API}/courses?keyword=${searchKeyword}`, {
       headers: {
         Authorization: localStorage.getItem('access_token') || '',
       },
@@ -31,26 +30,7 @@ function Category(props) {
       .then(data => {
         setComponentDatas(data.courses);
       });
-  }, [didMount]);
-
-  useEffect(() => {
-    //카테고리 리스트 데이터
-    let fetchDestination = '';
-    if (categoryName) {
-      fetchDestination =
-        categoryName.includes('취미') || categoryName.includes('수익창출')
-          ? `${API}/courses?category=${categoryName}`
-          : `${API}/courses?sub_category=${categoryName}`;
-    } else {
-      fetchDestination = `${API}/courses`;
-    }
-
-    fetch(fetchDestination)
-      .then(res => res.json())
-      .then(data => {
-        setComponentDatas(data.courses);
-      });
-  }, [categoryName]);
+  }, [searchKeyword]);
 
   const postsPerPage = 12;
   const indexOfLastPost = currentPage * postsPerPage;
@@ -105,7 +85,6 @@ function Category(props) {
             <GridItem
               onClick={() => {
                 setCurrent('전체보기');
-                setDidMount(false);
                 props.history.push('/category');
               }}
               selected={current === '전체보기'}
@@ -253,4 +232,4 @@ const CardContainer = styled.div`
   display: flex;
 `;
 
-export default Category;
+export default Search;

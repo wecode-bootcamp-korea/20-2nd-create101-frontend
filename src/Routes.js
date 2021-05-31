@@ -10,6 +10,7 @@ import CreateClass from './Pages/CreateClass/CreateClass';
 import Footer from './Components/Footer/Footer';
 import MyPage from './Pages/MyPage/MyPage';
 import Nav from './Components/Nav/Nav';
+import Search from './Pages/Category/Search';
 
 function Routes() {
   return (
@@ -23,6 +24,7 @@ function Routes() {
         <Route exact path="/category" component={Category} />
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/category/:categoryName" component={Category} />
+        <Route exact path="/search/:searchKeyWord" component={Search} />
         <RecoilRoot>
           <Route exact path="/create" component={CreateClass} />
         </RecoilRoot>

@@ -1,5 +1,5 @@
-import { Link, withRouter } from 'react-router-dom';
-import React, { useState, useEffect, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { Search } from '@styled-icons/fa-solid';
 import { Clock } from '@styled-icons/bootstrap';
@@ -8,11 +8,18 @@ import { DeleteOutline } from '@styled-icons/typicons';
 function ClickedSearchBar(props) {
   const [searchInput, setSearchInput] = useState();
   const goToSearchResultPage = searchInput => {
-    props.history.push(`/category/${searchInput}`);
+    props.history.push(`/search/${searchInput}`);
   };
   const goToSearchKeywordPage = e => {
-    props.history.push(`/category/${e.target.textContent}`);
+    props.history.push(`/search/${e.target.textContent}`);
   };
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  });
 
   return (
     <ClickedSearch>
@@ -22,13 +29,16 @@ function ClickedSearchBar(props) {
             alt="ceate101 로고"
             src="/images/logo.png"
             name=""
-            onClick={e => props.goToPage(e)}
+            onClick={e => {
+              props.goToPage(e);
+            }}
           />
           <ClickedSearchBox
             onSubmit={e => {
               e.preventDefault();
               props.addLog(e);
               goToSearchResultPage(searchInput);
+              props.setClickedSearchBar(false);
             }}
           >
             <ClickedSearchInput
@@ -56,7 +66,13 @@ function ClickedSearchBar(props) {
           <SearchType>최근 검색어</SearchType>
           <ul>
             {props.searchLog.map(log => (
-              <RecentSearchKeywordsContainer key={log.id}>
+              <RecentSearchKeywordsContainer
+                key={log.id}
+                onClick={() => {
+                  props.history.push(`/search/${log.word}`);
+                  props.setClickedSearchBar(false);
+                }}
+              >
                 {log.word}
                 <DeleteIcon
                   onClick={e => {
@@ -129,6 +145,7 @@ const PopularSearchKeywords = ['임대차', '골프', '드로잉', '전세'];
 const ClickedSearch = styled.div`
   background-color: white;
   width: 100vw;
+  height: 100vh;
   position: absolute;
   z-index: 10;
 `;
@@ -207,6 +224,7 @@ const RecentSearchKeywordsContainer = styled.li`
   position: relative;
   padding: 8px 0px 8px 4px;
   font-size: 14px;
+  cursor: pointer;
 `;
 const DeleteIcon = styled(DeleteOutline)`
   position: absolute;

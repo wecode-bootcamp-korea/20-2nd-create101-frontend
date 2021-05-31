@@ -12,7 +12,7 @@ function ClassCard(props) {
 
   const handleLike = id => {
     setLike(!like);
-    fetch(`http://10.58.5.232:8000/users/like/${id}`, {
+    fetch(`${API}/users/like/${id}`, {
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('access_token'),
@@ -24,7 +24,7 @@ function ClassCard(props) {
 
   const handleClick = id => {
     history.push(`/courses/${id}`);
-    fetch(`http://10.58.5.232:8000/users/look/${id}`, {
+    fetch(`${API}/users/look/${id}`, {
       method: 'POST',
       headers: {
         Authorization: localStorage.getItem('access_token'),
@@ -106,30 +106,42 @@ const MainContainer = styled.div`
   cursor: pointer;
 
   @media ${({ theme }) => theme.mobile} {
-    width: 38vw;
+    width: ${props => (props.alignLeft ? '42vw' : '38vw')};
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
+  /* height: 200px; */
   margin: 5px 0;
   border-radius: 5px;
   overflow: hidden;
+
+  @media ${({ theme }) => theme.web} {
+    height: 200px;
+  }
+
+  @media ${({ theme }) => theme.mobile} {
+    height: 100px;
+  }
 `;
 
 const Picture = styled.img`
   width: 100%;
-  object-fit: cover;
+  min-height: 100%;
 
   &:hover {
     animation: mouseover 1s;
   }
 
   @keyframes mouseover {
-    from {
+    0% {
+      transform: scale(1);
+    }
+    10% {
       transform: scale(1.1);
     }
-    to {
+    100% {
       transform: scale(1);
     }
   }
@@ -141,7 +153,6 @@ const SaveButton = styled(Heart)`
   position: absolute;
   top: 8px;
   right: 8px;
-  /* color: ${props => props.theme.classComponentGrey}; */
   color: white;
 `;
 

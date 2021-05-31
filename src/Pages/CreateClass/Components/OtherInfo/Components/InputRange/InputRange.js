@@ -83,6 +83,7 @@ const Input = styled.input`
   pointer-events: none;
   appearance: none;
   opacity: 0;
+  cursor: pointer;
   z-index: 10;
 
   &::-webkit-slider-thumb {

@@ -35,19 +35,31 @@ function CardList(props) {
   };
 
   useEffect(() => {
-    fetch(`${API}/courses?sort=lastest`)
+    fetch(`${API}/courses?sort=lastest`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setNewestData(data.courses.slice(0, 10));
       });
 
-    fetch(`${API}/courses?sort=likes`)
+    fetch(`${API}/courses?sort=likes`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setPopularData(data.courses.slice(0, 10));
       });
 
-    fetch(`${API}/courses?sort=reviewest`)
+    fetch(`${API}/courses?sort=reviewest`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token') || '',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setMostReviewData(data.courses.slice(0, 10));
@@ -55,8 +67,8 @@ function CardList(props) {
   }, []);
 
   const LIST_DATA = [
-    { title: '🔥 실시간 인기 클래스', data: popularData },
     { title: '✨ 최신 업데이트 클래스', data: newestData },
+    { title: '🔥 실시간 인기 클래스', data: popularData },
     { title: '👍 후기가 많은 클래스', data: mostReviewData },
   ];
 

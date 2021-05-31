@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { titleState, valueState, monthState, priceState } from './state/state';
 import { TriangleDown } from '@styled-icons/octicons';
@@ -8,12 +9,15 @@ import { LoaderCircle } from '@styled-icons/boxicons-regular';
 import BasicInfo from './Components/BasicInfo/BasicInfo';
 import OtherInfo from './Components/OtherInfo/OtherInfo';
 import Modal from '../../Components/Modal/Modal';
+import { API } from '../../config';
 
 function CreateClass(props) {
   const title = useRecoilValue(titleState);
   const values = useRecoilValue(valueState);
   const month = useRecoilValue(monthState);
   const price = useRecoilValue(priceState);
+
+  const history = useHistory();
 
   const [contents, setContents] = useState(<BasicInfo />);
   const [thumbnail, setThumbnail] = useState();
@@ -42,8 +46,11 @@ function CreateClass(props) {
     classData.append('image', thumbnail);
 
     activeBtn &&
-      fetch('http://10.58.6.225:7000/courses/register', {
+      fetch(`${API}/courses/register`, {
         method: 'POST',
+        headers: {
+          Authorization: localStorage.getItem('access_token'),
+        },
         body: classData,
       })
         .then(res => res.json())
@@ -57,7 +64,7 @@ function CreateClass(props) {
     activeBtn ? setLoading('ing') : setLoading('required');
   };
 
-  function readURL(e) {
+  const readURL = e => {
     if (e.target.files.length) {
       const reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
@@ -65,7 +72,7 @@ function CreateClass(props) {
         setPreviewImg(e.target.result);
       };
     }
-  }
+  };
 
   const MODAL_CONTENTS = {
     required: (
@@ -96,6 +103,7 @@ function CreateClass(props) {
         button="보러가기 👀"
         buttonClick={() => {
           setLoading(false);
+          history.push('/');
         }}
       >
         {<>축하합니다. 클래스가 성공적으로 생성되었습니다!🎉</>}
@@ -141,10 +149,12 @@ function CreateClass(props) {
           type="file"
           accept="image/*"
           onChange={e => {
+            console.log(e.target.files);
             readURL(e);
             setThumbnail(e.target.files[0]);
           }}
           required
+          multiple
         />
         <label htmlFor="thumbnail">
           <Photo />

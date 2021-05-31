@@ -8,12 +8,11 @@ function MyPage(props) {
   const [courseData, setCourseData] = useState();
 
   useEffect(() => {
-    fetch('/data/user.json')
-      // fetch(`http://10.58.5.232:8000/users/me`, {
-      //   headers: {
-      //     Authorization: localStorage.getItem('access_token'),
-      //   },
-      // })
+    fetch(`${API}/users/me`, {
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setUserData(data.user_info);
@@ -153,7 +152,7 @@ const Contents = styled.div`
   padding: 5px;
 
   @media ${({ theme }) => theme.mobile} {
-    padding: 20px;
+    padding: 10px;
   }
 `;
 
