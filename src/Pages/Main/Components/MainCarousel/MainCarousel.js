@@ -1,4 +1,3 @@
-import { Link, withRouter } from 'react-router-dom';
 import React, { useState, useEffect, Fragment } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ArrowIosBackOutline } from '@styled-icons/evaicons-outline';
@@ -17,7 +16,9 @@ function MainCarousel() {
 
   useEffect(() => {
     setInterval(goToNextIndex, delay);
-    return () => clearInterval(goToNextIndex);
+    return () => {
+      clearInterval(goToNextIndex);
+    };
   }, [mainCarouselDatas]);
 
   const goToNextIndex = () => {

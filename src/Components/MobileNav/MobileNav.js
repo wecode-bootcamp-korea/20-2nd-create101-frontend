@@ -5,6 +5,7 @@ import { Search } from '@styled-icons/bootstrap';
 import { Cancel, List, PersonOutline } from '@styled-icons/material';
 import { CreateNewFolder } from '@styled-icons/material-outlined';
 import { PlayVideo } from '@styled-icons/foundation';
+import Modal from '../Modal/Modal';
 
 function MobileNav(props) {
   const [search, setSearch] = useState(false);
@@ -15,6 +16,7 @@ function MobileNav(props) {
   const [modal, setModal] = useState(false);
   const [categories, setCategories] = useState();
   const [searchInput, setSearchInput] = useState();
+  const [alert, setAlert] = useState(false);
 
   const history = useHistory();
 
@@ -52,22 +54,24 @@ function MobileNav(props) {
 
   const goToCategoryPage = e => {
     setModal(false);
-    props.history.push(`/category/${e.target.textContent}`);
+    history.push(`/category/${e.target.textContent}`);
   };
 
   const goToMainPage = () => {
     setModal(false);
-    props.history.push(`/`);
+    history.push(`/`);
   };
 
   const goToSearchResultPage = searchInput => {
     setSearch(false);
-    props.history.push(`/category/${searchInput}`);
+    setModal(false);
+    history.push(`/category/${searchInput}`);
   };
 
   const goToSearchKeywordPage = e => {
     setSearch(false);
-    props.history.push(`/category/${e.target.textContent}`);
+    setModal(false);
+    history.push(`/category/${e.target.textContent}`);
   };
 
   const TAB_LISTS = [
@@ -81,7 +85,10 @@ function MobileNav(props) {
     {
       name: '마이페이지',
       icon: <Person />,
-      click: () => history.push('/mypage'),
+      click: () =>
+        localStorage.getItem('access_token')
+          ? history.push('/mypage')
+          : setAlert(true),
     },
   ];
 
@@ -130,10 +137,17 @@ function MobileNav(props) {
             <Div>
               <SearchTitle>최근 검색어</SearchTitle>
               {searchLog.map(log => (
-                <FlexDiv key={log.id}>
+                <FlexDiv
+                  key={log.id}
+                  onClick={() => {
+                    setSearch(false);
+                    history.push(`/category/${log.word}`);
+                  }}
+                >
                   {log.word}
                   <XIcon
-                    onClick={() => {
+                    onClick={e => {
+                      e.stopPropagation();
                       delLog(log);
                     }}
                   />
@@ -145,7 +159,6 @@ function MobileNav(props) {
               <KeyWordContainer>
                 {KEYWORDS.map((keyword, index) => (
                   <KeyWord key={index} onClick={e => goToSearchKeywordPage(e)}>
-                    {' '}
                     {keyword}
                   </KeyWord>
                 ))}
@@ -188,6 +201,18 @@ function MobileNav(props) {
             </Div>
           ))}
         </Menu>
+      )}
+      {alert && (
+        <Modal
+          color="#FF5704"
+          button="확인"
+          buttonClick={() => {
+            setAlert(false);
+            history.push('/login');
+          }}
+        >
+          {<>로그인이 필요한 기능입니다. 💁</>}
+        </Modal>
       )}
     </Container>
   );

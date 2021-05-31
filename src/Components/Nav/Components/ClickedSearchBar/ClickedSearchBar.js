@@ -1,5 +1,5 @@
-import { Link, withRouter } from 'react-router-dom';
-import React, { useState, useEffect, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { Search } from '@styled-icons/fa-solid';
 import { Clock } from '@styled-icons/bootstrap';
@@ -14,6 +14,13 @@ function ClickedSearchBar(props) {
     props.history.push(`/category/${e.target.textContent}`);
   };
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  });
+
   return (
     <ClickedSearch>
       <ClickedSearchBarContainer>
@@ -22,13 +29,16 @@ function ClickedSearchBar(props) {
             alt="ceate101 로고"
             src="/images/logo.png"
             name=""
-            onClick={e => props.goToPage(e)}
+            onClick={e => {
+              props.goToPage(e);
+            }}
           />
           <ClickedSearchBox
             onSubmit={e => {
               e.preventDefault();
               props.addLog(e);
               goToSearchResultPage(searchInput);
+              props.setClickedSearchBar(false);
             }}
           >
             <ClickedSearchInput
@@ -129,6 +139,7 @@ const PopularSearchKeywords = ['임대차', '골프', '드로잉', '전세'];
 const ClickedSearch = styled.div`
   background-color: white;
   width: 100vw;
+  height: 100vh;
   position: absolute;
   z-index: 10;
 `;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
 import { ArrowIosBackOutline } from '@styled-icons/evaicons-outline';
 import { ArrowIosForwardOutline } from '@styled-icons/evaicons-outline';
