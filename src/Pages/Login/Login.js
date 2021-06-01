@@ -12,7 +12,7 @@ function SocialLogin() {
     Kakao.Auth.login({
       scope: 'profile, account_email, gender, age_range',
       success: function (response) {
-        fetch(`${API}/users/kakaologin`, {
+        fetch(`http://10.58.5.232:8000/users/login/kakao`, {
           method: 'post',
           headers: {
             Authorization: response.access_token,
@@ -20,8 +20,8 @@ function SocialLogin() {
         })
           .then(res => res.json())
           .then(res => {
-            if (res['access_token']) {
-              localStorage.setItem('access_token', res['access_token']);
+            if (res['Authorization']) {
+              localStorage.setItem('access_token', res['Authorization']);
               alert('Welcome to Create 101!');
               history.push('/');
             }

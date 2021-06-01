@@ -1,0 +1,130 @@
+{
+  "user_info": {
+    "name": "신승호",
+    "email": "shin91114@gmail.com",
+    "coupon_list": [
+      "신규회원",
+      "10000할인 쿠폰",
+      "20000할인 쿠폰",
+      "30000할인 쿠폰"
+    ]
+  },
+  "user_course": {
+    "user_craete_course": [
+      {
+        "id": 3,
+        "title": "탁구계의 끝판왕",
+        "sub_category": "스포츠",
+        "user": "신승호",
+        "like": 1,
+        "price": 20000,
+        "thumbnail": "null.jpg",
+        "month": 6,
+        "liked": false
+      },
+      {
+        "id": 6,
+        "title": "스페인",
+        "sub_category": "여행",
+        "user": "신승호",
+        "like": 0,
+        "price": 1500000,
+        "thumbnail": "null.jpg",
+        "month": 1,
+        "liked": false
+      },
+      {
+        "id": 12,
+        "title": "라면",
+        "sub_category": "요리",
+        "user": "신승호",
+        "like": 0,
+        "price": 20000,
+        "thumbnail": "null.jpg",
+        "month": 2,
+        "liked": false
+      },
+      {
+        "id": 21,
+        "title": "내 집 갖는 법",
+        "sub_category": "부동산",
+        "user": "신승호",
+        "like": 0,
+        "price": 100000,
+        "thumbnail": "null.jpg",
+        "month": 3,
+        "liked": false
+      },
+      {
+        "id": 22,
+        "title": "나 빼고 다 부자다",
+        "sub_category": "부동산",
+        "user": "신승호",
+        "like": 0,
+        "price": 200000,
+        "thumbnail": "null.jpg",
+        "month": 3,
+        "liked": false
+      },
+      {
+        "id": 23,
+        "title": "평생 월세 전세로 살건가?",
+        "sub_category": "부동산",
+        "user": "신승호",
+        "like": 0,
+        "price": 300000,
+        "thumbnail": "null.jpg",
+        "month": 3,
+        "liked": false
+      },
+      {
+        "id": 24,
+        "title": "고민하는동안 남들이 좋은거 다사감",
+        "sub_category": "부동산",
+        "user": "신승호",
+        "like": 0,
+        "price": 200000,
+        "thumbnail": "null.jpg",
+        "month": 3,
+        "liked": false
+      },
+      {
+        "id": 25,
+        "title": "집 살때 두개씩 사라(임대차 3법)",
+        "sub_category": "부동산",
+        "user": "신승호",
+        "like": 0,
+        "price": 100000,
+        "thumbnail": "null.jpg",
+        "month": 3,
+        "liked": false
+      }
+    ],
+    "liked_list": [
+      {
+        "id": 1,
+        "title": "축구계의 끝판왕",
+        "sub_category": "스포츠",
+        "user": "홍연우",
+        "like": 1,
+        "price": 30000,
+        "thumbnail": "null.jpg",
+        "month": 6,
+        "liked": true
+      }
+    ],
+    "looked_list": [
+      {
+        "id": 1,
+        "title": "축구계의 끝판왕",
+        "sub_category": "스포츠",
+        "user": "홍연우",
+        "like": 1,
+        "price": 30000,
+        "thumbnail": "null.jpg",
+        "month": 6,
+        "liked": true
+      }
+    ]
+  }
+}

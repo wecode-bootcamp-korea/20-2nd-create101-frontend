@@ -61,8 +61,13 @@ function CardComponent(props) {
 
 const MainContainer = styled.div`
   width: 260px;
-  margin: auto;
+  margin: 25px 15px;
   margin-top: 50px;
+
+  @media ${({ theme }) => theme.mobile} {
+    width: 160px;
+    margin: 10px;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -75,11 +80,12 @@ const Picture = styled.img`
 `;
 
 const SaveButton = styled(Heart)`
-  color: ${props => props.theme.classComponentGrey};
   width: 10%;
   position: absolute;
   top: 8px;
   right: 8px;
+  /* color: ${props => props.theme.classComponentGrey}; */
+  color: white;
 `;
 
 const InfoTagContainer = styled.div`
