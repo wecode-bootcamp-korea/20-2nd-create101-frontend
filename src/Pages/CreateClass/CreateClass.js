@@ -125,9 +125,7 @@ function CreateClass(props) {
         </Menu>
         <Down />
         <Btn
-          onClick={e => {
-            makeClass();
-          }}
+          onClick={makeClass}
           bgColor={activeBtn ? ({ theme }) => theme.pink : 'lightgray'}
         >
           나만의 클래스 생성
@@ -138,11 +136,9 @@ function CreateClass(props) {
         <Preview src={previewImg} />
         <Shadow />
         <ImgUploader
-          form="create"
           name="thumbnail"
           id="thumbnail"
           type="file"
-          form="create"
           accept="image/*"
           onChange={e => {
             readURL(e);
