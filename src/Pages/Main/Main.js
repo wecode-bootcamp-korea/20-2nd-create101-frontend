@@ -6,8 +6,8 @@ import MainCarousel from './Components/MainCarousel/MainCarousel';
 function Main() {
   return (
     <div>
-      {/* <ClassCardList /> */}
       <MainCarousel />
+      <ClassCardList />
     </div>
   );
 }

@@ -7,13 +7,14 @@ import Details from './Pages/Details/Details';
 import Category from './Pages/Category/Category';
 import CreateClass from './Pages/CreateClass/CreateClass';
 import { RecoilRoot } from 'recoil';
+import Footer from './Components/Footer/Footer';
 
 function Routes() {
   return (
     <Router>
       <MobileNav />
       <Switch>
-        <Route exact path="/" component={Main} />
+        <Route exact path="/main" component={Main} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/details" component={Details} />
         <Route exact path="/category" component={Category} />
@@ -21,6 +22,7 @@ function Routes() {
           <Route exact path="/create" component={CreateClass} />
         </RecoilRoot>
       </Switch>
+      <Footer />
     </Router>
   );
 }
